@@ -1,7 +1,8 @@
 const { join } = require('path');
 const { findNearestProject, projectHasBrowserExt } = require('./_common');
-const { existsSync, readJsonSync, readdir, ensureDir, writeJson } = require('fs-extra');
+const { existsSync, readJsonSync, readdir, ensureDir, writeJson, writeFile } = require('fs-extra');
 const { manifestJsonData } = require('./templates/esyr/public/manifest.json');
+const { extIndexHtmlContent } = require('./templates/esyr/public/extIndex.html');
 
 const initBrowserExtCmds = ['ext', 'browser-ext'];
 
@@ -39,6 +40,7 @@ async function initBrowserExt() {
   const nearestProjPath = findNearestProject();
   const manifestPath = join(nearestProjPath, 'public', 'manifest.json');
   const packagePath = join(nearestProjPath, 'package.json');
+  const extIndexPath = join(nearestProjPath, 'public', 'ext', 'index.html');
 
   // Read package.json and manifest.json to determine if browser extension already exists
   const [packageJsonData, existingManifestData] = await Promise.all([
@@ -47,7 +49,7 @@ async function initBrowserExt() {
   ]);
 
   if (!existingManifestData) {
-    await ensureDir(join(nearestProjPath, 'public'));
+    await ensureDir(join(nearestProjPath, 'public', 'ext'));
 
     // Create manifest.json with default values
     await writeJson(manifestPath, {
@@ -56,10 +58,12 @@ async function initBrowserExt() {
       short_name: packageJsonData.name,
       name: packageJsonData.name,
       action: {
-        default_popup: 'index.html',
+        default_popup: '/ext/index.html',
         default_title: packageJsonData.name,
       },
     }, { spaces: 2 });
+
+    await writeFile(extIndexPath, extIndexHtmlContent({ projectName: packageJsonData.name }).trim());
   }
 
   return false;
