@@ -13,6 +13,8 @@ const { appComponentContent } = require('./templates/esyr/src/app');
 const { tailwindFactory } = require('./templates/esyr/tailwind');
 const { reactPageFactory } = require('./templates/esyr/src/pages');
 const { reactComponentFactory } = require('./templates/esyr/src/components');
+const { prettierFactory } = require('./templates/esyr/prettier');
+const { postcssFactory } = require('./templates/esyr/postcss');
 
 const addProjectCmds = ['proj', 'project'];
 
@@ -45,7 +47,7 @@ async function addProject() {
   const projectPath = join(process.cwd(), projectName);
   await ensureDir(projectPath);
 
-  console.log(`Creating a new TypeScript React project '${projectName}'`);
+  console.log(`\n\nCreating a new React project '${projectName}'`);
 
   packageJsonData.name = projectName;
 
@@ -100,7 +102,7 @@ async function addProject() {
     writeJson(join(projectPath, 'package.json'), packageJsonData, { spaces: 2 }),
 
     // Create scripts/common.js
-    writeFile(join(scriptsPath, 'common.js'), commonScriptContent.trim()),
+    writeFile(join(scriptsPath, 'common.js'), commonScriptContent({useSass}).trim()),
 
     // Create scripts/_start.js
     writeFile(join(scriptsPath, '_start.js'), startScriptContent.trim()),
@@ -125,7 +127,7 @@ async function addProject() {
       pagePath: pagesPath,
       contentOverride: `<div className='py-5 grid gap-5'>
           <div className='px-5'>
-            <h1 className='text-2xl font-black'>Welcome to team</h1>
+            <h1 className='text-2xl font-black'>Welcome to ${projectName}</h1>
             <p>Scaffold out some web components using the esy-react cli!</p>
           </div>
           <div className='px-10 py-5 bg-black/10 grid gap-2.5'>
@@ -158,11 +160,23 @@ async function addProject() {
     }),
     // Add Tailwind CSS
     tailwindFactory({ projectPath, projectName }),
+    
+    // Add PostCSS
+    postcssFactory({ projectPath }),
+
+    // Add Prettier
+    prettierFactory({projectPath}),
+
+    // Add .gitignore
+    writeFile(join(projectPath, '.gitignore'), `dist
+node_modules/**/*
+dist/*.(js|css|json|map|html)
+.DS_STORE`),
   ]);
 
-  console.log('\n\n\n\nProject created successfully!\n');
+  console.log('\n\nProject created successfully!\n');
   console.log('Installing dependencies...\n\n');
-  subprocess.execSync(`cd ${projectName} && npm install && npm run format && echo '\n\nInstallation successful! \n\n\nrun "npm start" to start the dev server'`);
+  subprocess.execSync(`cd ${projectName} && npm install && npm run format`);
 }
 
 module.exports = { addProject, addProjectCmds };

@@ -3,7 +3,7 @@ const { writeFile } = require('fs-extra');
 
 /**
  * @name tailwindFactory
- * @description Create tailwind.config.js and src/tailwind.css files
+ * @description Create tailwind.config.js and src/theme.css files
  */
 const tailwindFactory = async ({ projectName, projectPath }) => {
   // Validate required arguments
@@ -12,20 +12,18 @@ const tailwindFactory = async ({ projectName, projectPath }) => {
     throw new Error('Missing required arguments');
   }
 
-  const tailwindCssContent = `
-@tailwind base;
-@tailwind components;
+  const styleFileName = 'theme.css';
+  const indexCssContent = `@tailwind base;
 @tailwind utilities;
 
 #${projectName + '-root'} {
     @apply fixed inset-0 block m-0 p-0;
     font-family: 'Roboto', sans-serif;
-}
-    `;
+}`;
 
   await Promise.all([
     await writeFile(join(projectPath, 'tailwind.config.js'), tailwindConfigContent.trim()), // Create tailwind.config.js
-    await writeFile(join(projectPath, 'src', 'tailwind.css'), tailwindCssContent.trim()), // Create style file
+    await writeFile(join(projectPath, 'src', styleFileName), indexCssContent.trim()), // Create style file
   ]);
 };
 
@@ -37,7 +35,7 @@ module.exports = { tailwindFactory };
 const tailwindConfigContent = `
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-content: ['./src/**/*.{html,js,jsx,ts,tsx,css,scss}'],
+content: ['./src/**/*.{js,jsx,ts,tsx,css,scss}'],
 presets: [],
 darkMode: 'media', // or 'class'
 theme: {

@@ -1,5 +1,6 @@
 const startScriptContent = `const liveServer = require('live-server');
 const { cleanDist, buildContentScripts, buildWorkers, buildMainBundle, copyPublicFiles, buildStyleFiles, watch } = require('./common');
+
 // Initial build
 cleanDist();
 buildWorkers();
@@ -7,6 +8,8 @@ buildContentScripts();
 buildMainBundle();
 buildStyleFiles();
 copyPublicFiles();
+
+// Watch for file changes
 watch('src/**/*', {}, (event, path) => {
   console.log('Files have changed! Rebuilding...');
   buildMainBundle();
@@ -15,6 +18,7 @@ watch('src/**/*', {}, (event, path) => {
   buildStyleFiles();
   copyPublicFiles();
 })
+
 // Start live server
 liveServer.start({
   port: 8080,
@@ -24,6 +28,7 @@ liveServer.start({
   file: "index.html",
   logLevel: 2,
 });
+
 console.log('Watching for file changes...');`;
 
 module.exports = { startScriptContent };

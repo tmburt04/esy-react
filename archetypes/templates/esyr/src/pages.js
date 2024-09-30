@@ -35,10 +35,12 @@ import './${styleFileName}';${reactPropTypeDef}
 export const ${pageName} = (props${reactPropTypeUse}) => {
   return (
     <div className="${kebabCaseName}-page-container">
-      <h1>Page body</h1>
+          ${contentOverride?.length > 0 ? contentOverride : `{props?.children ? props?.children : <div>
+            <h1>${pageName} Header</h1>
         <section className="${kebabCaseName}-section">
-          ${contentOverride?.length > 0 ? contentOverride : `{props?.children ? props?.children : <p>${pageName} Page body</p>}`}
+        <p>${pageName} Page content</p>
         </section>
+            </div>}`}
     </div>
   )
 }          

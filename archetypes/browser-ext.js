@@ -1,5 +1,5 @@
 const { join } = require('path');
-const { findNearestProject } = require('./_common');
+const { findNearestProject, projectHasBrowserExt } = require('./_common');
 const { existsSync, readJsonSync, readdir, ensureDir, writeJson } = require('fs-extra');
 const { manifestJsonData } = require('./templates/esyr/public/manifest.json');
 
@@ -31,7 +31,7 @@ async function fetchContentScripts() {
  * Initialize a browser extension in the nearest project directory.
  */
 async function initBrowserExt() {
-  const hasExistingExt = await projectHasBrowserExt(false);
+  const hasExistingExt = projectHasBrowserExt(false);
   if (hasExistingExt) {
     console.error('A browser extension already exists in this project.');
     return;
@@ -51,7 +51,7 @@ async function initBrowserExt() {
 
     // Create manifest.json with default values
     await writeJson(manifestPath, {
-      ...manifestJsonData,
+      ...manifestJsonData({name: packageJsonData.name, version: packageJsonData.version}),
       version: packageJsonData.version,
       short_name: packageJsonData.name,
       name: packageJsonData.name,

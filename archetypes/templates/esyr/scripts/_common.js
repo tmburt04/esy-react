@@ -1,7 +1,6 @@
-const commonScriptContent = `const esbuild = require('esbuild');
+const commonScriptContent = ({useSass}) => `const esbuild = require('esbuild');
 const subprocess = require('child_process');
-const { sassPlugin } = require('esbuild-sass-plugin');
-const { platform } = require('os');
+${!useSass ? '' : `const { sassPlugin } = require('esbuild-sass-plugin');`}
 
 // Function to clean the dist directory
 const cleanDist = () => {
@@ -24,7 +23,7 @@ const copyPublicFiles = () => {
 // Function to build style files
 const buildStyleFiles = () => {
   try {
-    subprocess.execSync('npx tailwind -c tailwind.config.js -o dist/bundle.css -m');
+    subprocess.execSync('npm run build:styles');
   } catch (e) {
     console.log(e);
   }
@@ -94,7 +93,7 @@ const buildConfig = {
   define: {
     'process.env.NODE_ENV': '"development"',
   },
-  plugins: [sassPlugin()],
+  plugins: [${!useSass ? '' : `sassPlugin()`}],
 }
 
 // Function to build workers

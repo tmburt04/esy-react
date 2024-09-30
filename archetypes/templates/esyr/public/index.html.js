@@ -10,6 +10,7 @@ const indexHtmlContent = ({ projectName }) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${normalName || 'React App'}</title>
     <link crossorigin="anonymous" media="all" rel="stylesheet" href="bundle.css" />
+    <link crossorigin="anonymous" media="all" rel="stylesheet" href="theme.css" />
     <style>
         html {
             min-width: 300px;
