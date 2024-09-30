@@ -1,0 +1,4 @@
+dist
+node_modules/**/*
+dist/*.(js|css|json|map|html)
+.DS_STORE

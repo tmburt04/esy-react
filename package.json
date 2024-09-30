@@ -1,0 +1,35 @@
+{
+  "name": "esy-react-cli",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,json,py,rs}\"",
+    "prebuild": "rm -rf dist",
+    "build": "esbuild ./index.js --bundle --platform=node --target=node18 --outfile=dist/index.js",
+    "link": "bash ./cli-link.sh",
+    "p": "node ./index.js project",
+    "h": "node ./index.js hook",
+    "c": "node ./index.js component",
+    "page": "node ./index.js page",
+    "sw": "node ./index.js service-worker",
+    "cs": "node ./index.js content-script",
+    "ctx": "node ./index.js context"
+  },
+  "bin": {
+    "esy-react": "./index.js",
+    "esyr": "./index.js"
+  },
+  "dependencies": {
+    "fs-extra": "^10.0.0",
+    "inquirer": "^8.2.0",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+    "esbuild": "^0.23.1",
+    "prettier": "^3.3.3"
+  },
+  "author": "timmichaelburton@gmail.com",
+  "license": "ISC"
+}

@@ -1,0 +1,6 @@
+# Ignore artifacts:
+dist
+
+# Ignore all HTML files:
+node_modules
+.prettierrc.json
