@@ -18,5 +18,5 @@ This is a minimalist react boilerplate CLI tool that helps you to create a new r
 | `esyr hook` | `esyr h` | Creates a context + provider for a react project |
 | `esyr context` | `esyr ctx` | Creates a context + provider for a react project |
 | `esyr service-worker` | `esyr sw` | Create a service worker in a react project |
-| `esyr browser-ext` | `esyr ext` | WIP - Initializes a react project as a browser ext |
+| `esyr browser-ext` | `esyr ext` | WIP - Initializes a react project as a browser ext (experimental) |
 | `esyr content-script` | `esyr cs` | WIP - Creates a content script for a react project (browser ext ONLY) |
