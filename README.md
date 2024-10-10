@@ -1,5 +1,5 @@
 # ESY React App
-This is a minimalist react boilerplate CLI tool that helps you scaffold new react apps with ease.
+This is a minimalist React template CLI tool that helps you scaffold new react apps with ease.
 
 ## NPM Registry Installation
 1. `npm i -g esy-react-cli`
