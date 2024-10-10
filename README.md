@@ -1,7 +1,7 @@
 # ESY React App
 This is a minimalist react boilerplate CLI tool that helps you to create a new react app with a single command.
 
-## NPM Registry Installation (Private)
+## NPM Registry Installation
 1. `npm i -g esy-react-cli`
 
 ## Local Installation
