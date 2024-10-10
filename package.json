@@ -1,13 +1,13 @@
 {
   "name": "esy-react-cli",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A CLI for generating React components, hooks, pages, and more.",
   "main": "index.js",
   "scripts": {
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,json,py,rs}\"",
     "prebuild": "rm -rf dist",
     "build": "esbuild ./index.js --minify --bundle --platform=node --target=node18 --outfile=dist/index.js",
-    "link": "bash ./cli-link.sh",
+    "bundle": "bash ./bundle.sh",
     "p": "node ./index.js project",
     "h": "node ./index.js hook",
     "c": "node ./index.js component",
@@ -31,5 +31,5 @@
     "prettier": "^3.3.3"
   },
   "author": "timmichaelburton@gmail.com",
-  "license": "ISC"
+  "license": "MIT"
 }

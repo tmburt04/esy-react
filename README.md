@@ -1,5 +1,5 @@
 # ESY React App
-This is a minimalist react boilerplate CLI tool that helps you to create a new react app with a single command.
+This is a minimalist react boilerplate CLI tool that helps you scaffold new react apps with ease.
 
 ## NPM Registry Installation
 1. `npm i -g esy-react-cli`
@@ -8,6 +8,19 @@ This is a minimalist react boilerplate CLI tool that helps you to create a new r
 1. ___cd into the project directory___
 2. `npm i`
 3. `npm run link`
+
+## Folder Structure
+{project name}/
+├── public/
+├── scripts/
+├── src/
+│   ├── pages/{page name}/
+│   ├── components/{component name}/
+│   ├── contexts/
+│   ├── hooks/
+│   ├── workers/
+│   ├── content-scripts/
+│   ├── pop-ups/
 
 ## Commands
 | Cmd | Short Cmd | Description |
