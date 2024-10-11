@@ -29,6 +29,14 @@ const buildStyleFiles = () => {
   }
 };
 
+// Function to format the styles files
+const formatFiles = () => {
+  try {
+    subprocess.execSync('npm run format');
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 const DEFAULT_OPTIONS = {
   delay: 100,
@@ -134,6 +142,7 @@ const buildMainBundle = () => {
 
 
 module.exports = {
+  formatFiles,
   watch,
   cleanDist,
   buildStyleFiles,

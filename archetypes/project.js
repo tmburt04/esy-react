@@ -124,7 +124,7 @@ async function addProject() {
       useTypeScript,
       useSass,
       pageName: initialPageName,
-      pagePath: pagesPath,
+      pagePath: `${pagesPath}/${initialPageName}`,
       contentOverride: `<div className='py-5 grid gap-5'>
           <div className='px-5'>
             <h1 className='text-2xl font-black'>Welcome to ${projectName}</h1>
@@ -153,7 +153,7 @@ async function addProject() {
       useTypeScript,
       useSass,
       componentName: 'HelloComponent',
-      componentPath: componentsPath,
+      componentPath: `${componentsPath}/HelloComponent`,
       contentOverride: `<div className='px-5 font-black'>
             <p>Hello Component!</p>
           </div>`,

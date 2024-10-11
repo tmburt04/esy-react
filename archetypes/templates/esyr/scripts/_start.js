@@ -1,17 +1,19 @@
 const startScriptContent = `const liveServer = require('live-server');
-const { cleanDist, buildContentScripts, buildWorkers, buildMainBundle, copyPublicFiles, buildStyleFiles, watch } = require('./common');
+const { cleanDist, buildContentScripts, buildWorkers, buildMainBundle, copyPublicFiles, buildStyleFiles, watch, formatFiles } = require('./common');
 
 // Initial build
 cleanDist();
+formatFiles();
+buildMainBundle();
 buildWorkers();
 buildContentScripts();
-buildMainBundle();
 buildStyleFiles();
 copyPublicFiles();
 
 // Watch for file changes
 watch('src/**/*', {}, (event, path) => {
   console.log('Files have changed! Rebuilding...');
+  formatFiles();
   buildMainBundle();
   buildWorkers();
   buildContentScripts();
