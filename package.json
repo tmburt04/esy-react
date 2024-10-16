@@ -1,14 +1,14 @@
 {
   "name": "esy-react-cli",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "This is a minimalist React template CLI tool that helps you scaffold new react apps with ease.",
   "main": "index.js",
   "scripts": {
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,json,py,rs}\"",
     "prebuild": "rm -rf dist",
     "build": "esbuild ./index.js --minify --bundle --platform=node --target=node18 --outfile=dist/index.js",
-    "publish": "bash ./publish.sh",
-    "bundle": "bash ./bundle.sh",
+    "publish": "bash ./scripts/publish.sh",
+    "bundle": "bash ./scripts/bundle.sh",
     "p": "node ./index.js project",
     "h": "node ./index.js hook",
     "c": "node ./index.js component",
@@ -31,6 +31,26 @@
     "esbuild": "^0.23.1",
     "prettier": "^3.3.3"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tmburt04/esy-react.git"
+  },
+  "homepage": "https://github.com/tmburt04/esy-react/wiki",
+  "bugs": {
+    "url": "https://github.com/tmburt04/esy-react/issues"
+  },
+  "keywords": [
+    "React",
+    "ReactJS",
+    "esbuild",
+    "scss",
+    "fontawesome",
+    "typescript",
+    "CRA",
+    "create-react-app",
+    "react-app",
+    "react-scripts"
+  ],
   "author": "timmichaelburton@gmail.com",
   "license": "MIT"
 }
