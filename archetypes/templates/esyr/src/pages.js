@@ -19,11 +19,11 @@ const reactPageFactory = async ({ useTypeScript, useSass, pageName, pagePath, co
 
   const pageFileContent = `
 import React from 'react';
-import './${styleFileName}';${reactPropTypeDef}
+import './${styleFileName}';
 
 export const ${pageName} = () => {
   return (
-    <div className="${kebabCaseName}-page-container">
+    <div className="${kebabCaseName}-page-container h-full overflow-auto">
           ${contentOverride?.length > 0 ? contentOverride : `<div>
             <h1>${pageName} Header</h1>
         <section className="${kebabCaseName}-section">
