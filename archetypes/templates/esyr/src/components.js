@@ -23,7 +23,7 @@ const reactComponentFactory = async ({ useTypeScript, useSass, componentName, co
   if (useTypeScript) {
     reactPropTypeDef = `
     export type ${componentName}Props = {
-            id: string;
+            id?: string;
           }`;
     reactPropTypeUse = `: ${componentName}Props`;
   }

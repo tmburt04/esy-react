@@ -17,34 +17,23 @@ const reactPageFactory = async ({ useTypeScript, useSass, pageName, pagePath, co
   const styleFileName = `${pageName}.${useSass ? 'scss' : 'css'}`;
   const pageFileName = `${pageName}.${useTypeScript ? 'tsx' : 'jsx'}`;
 
-  let reactPropTypeDef = '',
-    reactPropTypeUse = '';
-
-  if (useTypeScript) {
-    reactPropTypeDef = `
-    export type ${pageName}Props = {
-            id?: string;
-            children?: any;
-          }`;
-    reactPropTypeUse = `: ${pageName}Props`;
-  }
-
   const pageFileContent = `
 import React from 'react';
 import './${styleFileName}';${reactPropTypeDef}
-export const ${pageName} = (props${reactPropTypeUse}) => {
+
+export const ${pageName} = () => {
   return (
     <div className="${kebabCaseName}-page-container">
-          ${contentOverride?.length > 0 ? contentOverride : `{props?.children ? props?.children : <div>
+          ${contentOverride?.length > 0 ? contentOverride : `<div>
             <h1>${pageName} Header</h1>
         <section className="${kebabCaseName}-section">
         <p>${pageName} Page content</p>
         </section>
-            </div>}`}
+      </div>`}
     </div>
   )
 }          
-export default {${pageName}};
+export default ${pageName};
 `;
 
   const pageStyleFileContent = `.${kebabCaseName}-page-container .${kebabCaseName}-section {

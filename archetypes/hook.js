@@ -23,11 +23,6 @@ async function addHook() {
   const hookPath = findNearestProject('src/hooks');
 
   try {
-    const _exists = await exists(hookPath);
-    if (_exists) {
-      console.error(`\n\n\n'${hookName}' already exists!\n\n\n`);
-      return;
-    }
     await ensureDir(hookPath);
 
     await reactHookFactory({
