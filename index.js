@@ -8,6 +8,7 @@ const { addContextCmds, addContext } = require('./archetypes/context');
 const { addServiceWorkerCmds, addServiceWorker } = require('./archetypes/service-worker');
 const { addContentScriptCmds, addContentScript } = require('./archetypes/content-script');
 const { findNearestProject, projectHasBrowserExt } = require('./archetypes/_common');
+const { getRandomWelcome, getRandomActionPrompt } = require('./utils/joke-util');
 
 const nearestPublicPath = findNearestProject('public', false);
 
@@ -79,7 +80,10 @@ return (async () => {
     }
   }
 
+  const welcome = getRandomWelcome()
+  const actionPrompt = getRandomActionPrompt()
   console.warn(`
+    ESYR - Esy React CLI\n
     General Commands:\n
     \tProject${spacer}${menuStatus.project ? `[${addProjectCmds.join(', ')}]` : 'UNAVAILABLE'}
     \tPage${spacer}${menuStatus.page ? `[${addPageCmds.join(', ')}]` : 'UNAVAILABLE'}
@@ -89,7 +93,9 @@ return (async () => {
     \tService Worker${spacer}${menuStatus.serviceWorker ? `[${addServiceWorkerCmds.join(', ')}]` : 'UNAVAILABLE'}\n
     
     Browser Ext Commands:\n
-    \tInitialize Extension${spacer}${menuStatus.browserExt ? `[${initBrowserExtCmds.join(', ')}]` : 'UNAVAILABLE'}
-    \tContent Script${spacer}${menuStatus.contentScript ? `[${addContentScriptCmds.join(', ')}]` : 'UNAVAILABLE'}\n
+    \tInitialize Extension*${spacer}${menuStatus.browserExt ? `[${initBrowserExtCmds.join(', ')}]` : 'UNAVAILABLE'}
+    \tContent Script*${spacer}${menuStatus.contentScript ? `[${addContentScriptCmds.join(', ')}]` : 'UNAVAILABLE'}\n\n
+    ${welcome}\n
+    ${actionPrompt}\n
 `);
 })();

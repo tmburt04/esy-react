@@ -1,6 +1,12 @@
 # ESY React Changelog
 
 
+### 2.0.1
+- Abstracted env file references to allow for more custom features and settings.
+- Progress bar on all API calls.
+- Hehe - Jokes :-)
+
+
 ### 2.0.0
 - `esyr component` now offers code generation with Claude Sonnet.
 - `esyr page` now offers code generation with Claude Sonnet.

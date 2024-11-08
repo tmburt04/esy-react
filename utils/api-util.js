@@ -3,71 +3,12 @@ const path = require('path');
 const readline = require('readline');
 const util = require('util');
 const dotenv = require('dotenv');
+const { setEnvVar, getEnvVar } = require('./env-util');
 
 // Get the directory where the CLI tool is being run
 const getCurrentDirectory = () => process.cwd();
 
-async function setApiKey(apiKey) {
-  try {
-    const envPath = path.join(getCurrentDirectory(), '.env');
-    
-    // Check if .env already exists
-    let existingEnvVars = {};
-    if (fs.existsSync(envPath)) {
-      existingEnvVars = dotenv.parse(fs.readFileSync(envPath));
-    }
-
-    // Merge new API key with existing variables
-    const envContent = {
-      ...existingEnvVars,
-      CLAUDE_API_KEY: apiKey
-    };
-
-    // Convert to .env file format
-    const envString = Object.entries(envContent)
-      .map(([key, value]) => `${key}=${value}`)
-      .join('\n');
-
-    // Write the file with restricted permissions
-    await fs.promises.writeFile(envPath, envString, {
-      mode: 0o600, // Read/write for owner only
-      flag: 'w'
-    });
-
-    // Add .env to .gitignore if it exists
-    await ensureGitignore();
-
-    console.log(`API key successfully stored in ${envPath}`);
-    console.log('Make sure to add .env to your .gitignore file to avoid committing sensitive data!');
-    
-    return true;
-  } catch (error) {
-    console.error('Error storing API key:', error.message);
-    return false;
-  }
-}
-
-async function getApiKey() {
-  try {
-    // Load .env file
-    dotenv.config();
-    
-    // Check for API key in environment
-    const apiKey = process.env.CLAUDE_API_KEY;
-    
-    if (apiKey) {
-      return apiKey;
-    }
-    
-    // If no API key is found, prompt for one
-    return await promptForApiKey();
-  } catch (error) {
-    console.error('Error retrieving API key:', error.message);
-    throw error;
-  }
-}
-
-async function promptForApiKey() {
+async function promptForApiKey(vendor) {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -81,7 +22,7 @@ async function promptForApiKey() {
     rl.close();
     
     // Store the new API key
-    await setApiKey(apiKey);
+    await setEnvVar(`${vendor}_API_KEY`,apiKey);
     return apiKey;
   } catch (error) {
     rl.close();
@@ -89,24 +30,22 @@ async function promptForApiKey() {
   }
 }
 
-async function ensureGitignore() {
-  const gitignorePath = path.join(getCurrentDirectory(), '.gitignore');
-  
+async function getApiKey(vendor = 'CLAUDE') {
   try {
-    let gitignoreContent = '';
-    if (fs.existsSync(gitignorePath)) {
-      gitignoreContent = await fs.promises.readFile(gitignorePath, 'utf8');
+    // Load .env file
+    dotenv.config();
+    
+    const apiKey = await getEnvVar(`${vendor}_API_KEY`);
+    
+    if (apiKey) {
+      return apiKey;
     }
-
-    // Check if .env is already in .gitignore
-    if (!gitignoreContent.split('\n').some(line => line.trim() === '.env')) {
-      // Add .env to .gitignore if it's not already there
-      const newContent = gitignoreContent + (gitignoreContent.endsWith('\n') ? '' : '\n') + '.env\n';
-      await fs.promises.writeFile(gitignorePath, newContent, { flag: 'w' });
-      console.log('Added .env to .gitignore');
-    }
+    
+    // If no API key is found, prompt for one
+    return await promptForApiKey(vendor);
   } catch (error) {
-    console.warn('Warning: Could not update .gitignore:', error.message);
+    console.error('Error retrieving API key:', error.message);
+    throw error;
   }
 }
 
@@ -145,7 +84,6 @@ async function removeApiKey() {
 }
 
 const ApiProvider = {
-  setApiKey,
   getApiKey,
   isApiKeySet,
   removeApiKey

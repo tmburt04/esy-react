@@ -1,6 +1,8 @@
 const { prompt } = require("inquirer");
 const ApiProvider = require("../api-util");
 const { ClaudeModel } = require("./claude.model");
+const { ProgressUtil } = require("../progress-util");
+const { getRandomWaitingJoke } = require("../joke-util");
 
 /**
  * @description Tries to ask Claude for a prompt to generate code
@@ -50,6 +52,9 @@ async function askClaude(prompt, apiKey) {
     if (!apiKey) {
         throw new Error('API key is required');
     }
+    const progress = new ProgressUtil();
+    const loadingJoke = getRandomWaitingJoke('Claude');
+    progress.start(loadingJoke);
     const model = ClaudeModel
 
     try {
@@ -61,7 +66,7 @@ async function askClaude(prompt, apiKey) {
                 'anthropic-version': '2023-06-01'
             },
             body: JSON.stringify({
-                model: model.model_id,
+                model: model.id,
                 system: model.sysPrompt,
                 messages: [
                     {
@@ -79,11 +84,12 @@ async function askClaude(prompt, apiKey) {
         }
 
         const data = await response.json();
+        progress.stop();
         return data.content[0].text;
 
     } catch (error) {
-        console.error('Error calling Claude API:', error.message);
-        throw error;
+        console.error('Error calling 3rd party Rest API:', error.message);
+        progress.stop();
     }
 }
 
