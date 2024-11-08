@@ -2,10 +2,11 @@
 
 
 ### 2.0.0
-- `esyr component` now offers code generation for Claude Sonnet.
-- `esyr page` now offers code generation for Claude Sonnet.
+- `esyr component` now offers code generation with Claude Sonnet.
+- `esyr page` now offers code generation with Claude Sonnet.
+- Optional file overwrite for all commands. (existing files)
+- Optional file overwrite for all commands. (existing files)
 - Added a meta-DX feature to allow for ease of install locally.
-- Fixed commands not running properly.
 
 
 ### 1.1.3
