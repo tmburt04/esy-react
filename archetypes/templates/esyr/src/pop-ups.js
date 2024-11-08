@@ -1,21 +1,20 @@
 const { kebabCase } = require('lodash');
 
 /**
- * Builds a React component file
+ * Builds a React pop up file
  */
-const reactComponentFactory = ({ useTypeScript, useSass, componentName }) => {
-  const kebabCaseName = kebabCase(componentName);
+const reactPopUpFactory = ({ popupName }) => {
+  const kebabCaseName = kebabCase(popupName);
 
   return `import React from 'react';
-    import './NewComponent.css';
       
-      export const NewComponent = (props) => {
+      export const NewPopUp = (props) => {
 
         return (
           <div className="${kebabCaseName}-container">
-            <p>Component body</p>
+            <p>Pop Up body</p>
           </div>
         )
       }`;
 };
-module.exports = { reactComponentFactory };
+module.exports = { reactPopUpFactory };

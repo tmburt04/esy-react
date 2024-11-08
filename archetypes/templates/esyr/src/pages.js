@@ -22,16 +22,16 @@ import React from 'react';
 import './${styleFileName}';
 
 export const ${pageName} = () => {
-  return (
+      ${contentOverride?.length > 0 ? contentOverride : `return (
     <div className="${kebabCaseName}-page-container h-full overflow-auto">
-          ${contentOverride?.length > 0 ? contentOverride : `<div>
+          <div>
             <h1>${pageName} Header</h1>
         <section className="${kebabCaseName}-section">
         <p>${pageName} Page content</p>
         </section>
-      </div>`}
+      </div>
     </div>
-  )
+  )`}
 }          
 export default ${pageName};
 `;

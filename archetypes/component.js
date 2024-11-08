@@ -2,6 +2,7 @@ const { prompt } = require('inquirer');
 const { findNearestProject, projectHasSass, projectHasTypeScript } = require('./_common');
 const { reactComponentFactory } = require('./templates/esyr/src/components');
 const { ensureDir, exists } = require('fs-extra');
+const { tryAskClaude } = require('../utils/claude/claude.provider');
 
 const addComponentCmds = ['c', 'component'];
 
@@ -26,16 +27,32 @@ async function addComponent() {
   try {
     const _exists = await exists(componentPath);
     if (_exists) {
-      console.error(`\n\n\n'${componentName}' already exists!\n\n\n`);
-      return;
+      const { overwriteExisting } = await prompt([
+        {
+          type: 'confirm',
+          name: 'overwriteExisting',
+          message: `\n\n\n'${componentName}' already exists! Do you want to overwrite it?\n`, 
+          default: false,
+        }
+      ]);
+      if (!overwriteExisting) {
+        console.log(`\n\n\n'${componentName}' ignored.\n\n\n`);
+        return;
+      }
+    } else {
+      // Only create the directory if it doesn't exist
+      await ensureDir(componentPath);
     }
-    await ensureDir(componentPath);
+
+    // Asks the user if they want to use Claude to generate the content
+    const codeOverride = await tryAskClaude();
 
     await reactComponentFactory({
       componentName,
       componentPath,
       useSass,
       useTypeScript,
+      contentOverride: codeOverride,
     });
     console.log(`\n\n\n'${componentName}' created successfully!\n\n\n`);
   } catch (err) {

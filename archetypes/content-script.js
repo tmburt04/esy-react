@@ -25,12 +25,24 @@ async function addContentScript() {
   const contentScriptPath = findNearestProject('src/content-scripts');
 
   try {
-    const _exists = await exists(contextPath);
+    const _exists = await exists(contentScriptPath);
     if (_exists) {
-      console.error(`\n\n\n'${contentScriptName}' already exists!\n\n\n`);
-      return;
+      const { overwriteExisting } = await prompt([
+        {
+          type: 'confirm',
+          name: 'overwriteExisting',
+          message: `\n\n\n'${contentScriptName}' already exists! Do you want to overwrite it?\n`, 
+          default: false,
+        }
+      ]);
+      if (!overwriteExisting) {
+        console.log(`\n\n\n'${contentScriptName}' ignored.\n\n\n`);
+        return;
+      }
+    } else {
+      // Only create the directory if it doesn't exist
+      await ensureDir(contentScriptPath);
     }
-    await ensureDir(contextPath);
 
     await reactContentScriptFactory({
       contentScriptName,

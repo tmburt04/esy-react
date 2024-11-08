@@ -1,6 +1,13 @@
 # ESY React Changelog
 
 
+### 2.0.0
+- `esyr component` now offers code generation for Claude Sonnet.
+- `esyr page` now offers code generation for Claude Sonnet.
+- Added a meta-DX feature to allow for ease of install locally.
+- Fixed commands not running properly.
+
+
 ### 1.1.3
 - Fixed `esyr hook` command not working properly
 - Fixed `esyr page` command not building component properly

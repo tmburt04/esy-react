@@ -10,6 +10,7 @@ This is a minimalist React template CLI tool that helps you scaffold new react a
 3. `npm run link`
 
 ## Folder Structure
+```
 {project name}/
 ├── public/
 ├── scripts/
@@ -21,6 +22,7 @@ This is a minimalist React template CLI tool that helps you scaffold new react a
 │   ├── workers/
 │   ├── content-scripts/
 │   ├── pop-ups/
+```
 
 ## Commands
 | Cmd | Short Cmd | Description |

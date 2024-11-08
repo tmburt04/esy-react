@@ -96,6 +96,7 @@ async function addProject() {
   await ensureDir(componentsPath);
 
   const initialPageName = 'MainPage';
+  await ensureDir(`${pagesPath}/${initialPageName}`);
 
   // Write all the files
   await Promise.all([

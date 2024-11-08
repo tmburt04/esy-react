@@ -1,6 +1,6 @@
 const { join } = require('path');
 const { kebabCase } = require('lodash');
-const { writeFile } = require('fs-extra');
+const { writeFile, ensureDir } = require('fs-extra');
 
 /**
  * @name reactComponentFactory
@@ -12,6 +12,7 @@ const reactComponentFactory = async ({ useTypeScript, useSass, componentName, co
   if (requiredArgs.some((arg) => arg == undefined || arg == null)) {
     throw new Error('Missing required arguments');
   }
+  await ensureDir(componentPath);
 
   const kebabCaseName = kebabCase(componentName);
   const styleFileName = `${componentName}.${useSass ? 'scss' : 'css'}`;
@@ -32,11 +33,11 @@ const reactComponentFactory = async ({ useTypeScript, useSass, componentName, co
 import React from 'react';
 import './${styleFileName}';${reactPropTypeDef}
 export const ${componentName} = (props${reactPropTypeUse}) => {
-  return (
+      ${contentOverride?.length > 0 ? contentOverride : `return (
     <div className="${kebabCaseName}-container">
-      ${contentOverride?.length > 0 ? contentOverride : `<p>${componentName} Component body</p>`}
+    <p>${componentName} Component body</p>
     </div>
-  )
+  )`}
 }          
 export default ${componentName};
 `;
