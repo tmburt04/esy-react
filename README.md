@@ -5,8 +5,9 @@ esy-react-cli is a minimalist, yet robust command-line interface tool designed t
 esy-react-cli includes optional AI-powered features that are disabled by default and require explicit user opt-in to enhance the development experience. All AI capabilities are implemented with complete transparency - our source code is open for review on GitHub and we maintain a strict policy regarding API key management where keys are never stored within the project codebase. For security and privacy, users manage their own API keys locally through environment variables, with no keys ever transmitted to or stored on our servers. The CLI maintains full functionality without AI integration, ensuring developers have complete control over their development experience.
 
 **Supported Models:**
-- Claude Sonnet (claude-3-sonnet-20240229)
-- More? Let me know!
+| Id | Model | Vendor | API Access |
+| ---| --- | --- | --- |
+| `claude-3-sonnet-20240229` | Claude Sonnet (new) | Anthropic | https://www.anthropic.com/api |
 
 ## NPM Registry Installation
 1. `npm i -g esy-react-cli`
@@ -42,3 +43,4 @@ esy-react-cli includes optional AI-powered features that are disabled by default
 | `esyr service-worker` | `esyr sw` | Create a service worker in a react project | - |
 | `esyr browser-ext` | `esyr ext` | WIP - Initializes a react project as a browser ext (experimental) | - |
 | `esyr content-script` | `esyr cs` | WIP - Creates a content script for a react project that has a browser ext (experimental) | - |
+
