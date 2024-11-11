@@ -26,8 +26,8 @@ async function addPage() {
   ]);
 
   const groupPath = findNearestProject(`./src/pages`);
-  const resolvedPath = await PrefProvider.tryAskPath('page', groupPath);
-  const pagePath = `${resolvedPath}/${pageName}`;
+  // const resolvedPath = await PrefProvider.tryAskPath('page', groupPath);
+  const pagePath = `${groupPath}/${pageName}`;
 
   const useTypeScript = projectHasTypeScript();
   const useSass = projectHasSass();
