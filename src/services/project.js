@@ -1,20 +1,20 @@
 const { join } = require('path');
 const { prompt } = require('inquirer');
 const subprocess = require('child_process');
-const { packageJsonData } = require('./templates/esyr/package.json');
-const { buildScriptContent } = require('./templates/esyr/scripts/_build');
-const { commonScriptContent } = require('./templates/esyr/scripts/_common');
-const { startScriptContent } = require('./templates/esyr/scripts/_start');
+const { packageJsonData } = require('./_templates/esyr/package.json');
+const { buildScriptContent } = require('./_templates/esyr/scripts/_build');
+const { commonScriptContent } = require('./_templates/esyr/scripts/_common');
+const { startScriptContent } = require('./_templates/esyr/scripts/_start');
 const { ensureDir, writeJson, writeFile } = require('fs-extra');
-const { tsConfigJsonData } = require('./templates/esyr/tsconfig.json');
-const { indexHtmlContent } = require('./templates/esyr/public/index.html');
-const { indexComponentContent } = require('./templates/esyr/src');
-const { appComponentContent } = require('./templates/esyr/src/app');
-const { tailwindFactory } = require('./templates/esyr/tailwind');
-const { reactPageFactory } = require('./templates/esyr/src/pages');
-const { reactComponentFactory } = require('./templates/esyr/src/components');
-const { prettierFactory } = require('./templates/esyr/prettier');
-const { postcssFactory } = require('./templates/esyr/postcss');
+const { tsConfigJsonData } = require('./_templates/esyr/tsconfig.json');
+const { indexHtmlContent } = require('./_templates/esyr/public/index.html');
+const { indexComponentContent } = require('./_templates/esyr/src');
+const { appComponentContent } = require('./_templates/esyr/src/app');
+const { tailwindFactory } = require('./_templates/esyr/tailwind');
+const { reactPageFactory } = require('./_templates/esyr/src/pages');
+const { reactComponentFactory } = require('./_templates/esyr/src/components');
+const { prettierFactory } = require('./_templates/esyr/prettier');
+const { postcssFactory } = require('./_templates/esyr/postcss');
 
 const addProjectCmds = ['proj', 'project'];
 

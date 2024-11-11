@@ -1,13 +1,14 @@
 const { prompt } = require('inquirer');
 const { findNearestProject, projectHasTypeScript } = require('./_common');
 const { exists, ensureDir } = require('fs-extra');
-const { reactHookFactory } = require('./templates/esyr/src/hooks');
+const { reactHookFactory } = require('./_templates/esyr/src/hooks');
+const {PrefProvider} = require('../providers/pref.provider');
 
 const addHookCmds = ['h', 'hook'];
 
 /**
  * @description Creates a new boilerplate react hook in the nearest project.
- * Will not overwrite existing hooks.
+ * Will not overwrite existing hooks. unless the user confirms.
  */
 async function addHook() {
   const { hookName } = await prompt([
@@ -19,8 +20,11 @@ async function addHook() {
     },
   ]);
 
+
+  const groupPath = findNearestProject(`./src/hooks`);
+  const hookPath = await PrefProvider.tryAskPath('hook', groupPath);
+
   const useTypeScript = projectHasTypeScript();
-  const hookPath = findNearestProject('src/hooks');
 
   try {
     await ensureDir(hookPath);

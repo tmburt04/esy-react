@@ -1,6 +1,11 @@
 # ESY React Changelog
 
 
+### 2.0.2
+- Project directory restructure to meet standards.
+- Allow custom paths for 'pages' and 'components' commands.
+
+
 ### 2.0.1
 - Abstracted env file references to allow for more custom features and settings.
 - Progress bar on all API calls.

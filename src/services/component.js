@@ -1,14 +1,15 @@
 const { prompt } = require('inquirer');
 const { findNearestProject, projectHasSass, projectHasTypeScript } = require('./_common');
-const { reactComponentFactory } = require('./templates/esyr/src/components');
+const { reactComponentFactory } = require('./_templates/esyr/src/components');
 const { ensureDir, exists } = require('fs-extra');
-const { tryAskClaude } = require('../utils/claude/claude.provider');
+const { tryAskLLM } = require('../utils/llm.util');
+const { PrefProvider } = require('../providers/pref.provider');
 
 const addComponentCmds = ['c', 'component'];
 
 /**
  * @description Creates a new boilerplate react component in the nearest project.
- * Will not overwrite existing components.
+ * Will not overwrite existing components. unless the user confirms.
  */
 async function addComponent() {
   const { componentName } = await prompt([
@@ -20,7 +21,10 @@ async function addComponent() {
     },
   ]);
 
-  const componentPath = findNearestProject(`./src/components/${componentName}`);
+  const groupPath = findNearestProject(`./src/pages`);
+  const resolvedPath = await PrefProvider.tryAskPath('page', groupPath);
+  const componentPath = `${resolvedPath}/${componentName}`;
+
   const useTypeScript = projectHasTypeScript();
   const useSass = projectHasSass();
 
@@ -45,7 +49,7 @@ async function addComponent() {
     }
 
     // Asks the user if they want to use Claude to generate the content
-    const codeOverride = await tryAskClaude();
+    const codeOverride = await tryAskLLM();
 
     await reactComponentFactory({
       componentName,

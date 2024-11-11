@@ -1,7 +1,7 @@
 const { prompt } = require('inquirer');
 const { findNearestProject, projectHasTypeScript } = require('./_common');
 const { exists, ensureDir } = require('fs-extra');
-const { reactContextFactory } = require('./templates/esyr/src/contexts');
+const { reactContextFactory } = require('./_templates/esyr/src/contexts');
 
 const addContextCmds = ['ctx', 'context'];
 

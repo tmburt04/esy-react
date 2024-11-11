@@ -1,6 +1,9 @@
 const readline = require('readline');
 
-export class ProgressUtil {
+/**
+ * Utility class to display a progress spinner in the terminal (removed when done)
+ */
+class ProgressUtil {
     constructor() {
         this.frames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'];
         this.currentFrame = 0;
@@ -35,3 +38,5 @@ export class ProgressUtil {
         process.stdout.write('\x1B[?25h');
     }
 }
+
+module.exports = { ProgressUtil };

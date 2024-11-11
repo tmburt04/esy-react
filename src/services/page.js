@@ -1,8 +1,9 @@
 const { prompt } = require('inquirer');
 const { projectHasTypeScript, projectHasSass, findNearestProject } = require('./_common');
-const { reactPageFactory } = require('./templates/esyr/src/pages');
+const { reactPageFactory } = require('./_templates/esyr/src/pages');
 const { ensureDir, exists } = require('fs-extra');
-const { tryAskClaude } = require('../utils/claude/claude.provider');
+const { PrefProvider } = require('../providers/pref.provider');
+const { tryAskLLM } = require('../utils/llm.util');
 
 /**
  * @description Commands that will trigger the addPage function.
@@ -11,9 +12,10 @@ const addPageCmds = ['page'];
 
 /**
  * @description Creates a new boilerplate react page to the nearest project.
- * Will not overwrite existing pages.
+ * Will not overwrite existing pages. unless the user confirms.
  */
 async function addPage() {
+
   const { pageName } = await prompt([
     {
       type: 'input',
@@ -23,7 +25,10 @@ async function addPage() {
     },
   ]);
 
-  const pagePath = findNearestProject(`./src/pages/${pageName}`);
+  const groupPath = findNearestProject(`./src/pages`);
+  const resolvedPath = await PrefProvider.tryAskPath('page', groupPath);
+  const pagePath = `${resolvedPath}/${pageName}`;
+
   const useTypeScript = projectHasTypeScript();
   const useSass = projectHasSass();
 
@@ -48,7 +53,7 @@ async function addPage() {
     }
 
     // Asks the user if they want to use Claude to generate the page content
-    const codeOverride = await tryAskClaude();
+    const codeOverride = await tryAskLLM();
 
     await reactPageFactory({
       pageName,

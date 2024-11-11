@@ -1,22 +1,22 @@
 {
   "name": "esy-react-cli",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Transform your React development workflow with this lightning-fast CLI tool that empowers you to launch production-ready apps in seconds. Seamlessly scaffold modern React applications with zero configuration, powered by battle-tested templates and optional AI assistance. Perfect for developers who value clean architecture and rapid deployment without the bloat. Stop wrestling with setup—start building.",
-  "main": "index.js",
+  "main": "./index.js",
   "scripts": {
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,json,py,rs}\"",
     "prebuild": "rm -rf dist",
-    "build": "esbuild ./index.js --minify --bundle --platform=node --target=node18 --outfile=dist/index.js",
+    "build": "esbuild ./bin/index.js --minify --bundle --platform=node --target=node18 --outfile=dist/index.js",
     "link": "bash ./scripts/bundle.sh -- --link",
     "publish": "bash ./scripts/publish.sh",
     "bundle": "bash ./scripts/bundle.sh",
-    "p": "node ./index.js project",
-    "h": "node ./index.js hook",
-    "c": "node ./index.js component",
-    "page": "node ./index.js page",
-    "sw": "node ./index.js service-worker",
-    "cs": "node ./index.js content-script",
-    "ctx": "node ./index.js context"
+    "p": "node ./bin/index.js project",
+    "h": "node ./bin/index.js hook",
+    "c": "node ./bin/index.js component",
+    "page": "node ./bin/index.js page",
+    "sw": "node ./bin/index.js service-worker",
+    "cs": "node ./bin/index.js content-script",
+    "ctx": "node ./bin/index.js context"
   },
   "bin": {
     "esy-react": "./index.js",

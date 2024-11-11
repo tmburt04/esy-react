@@ -34,13 +34,10 @@ async function setEnvVar(key, value) {
 
     // Add .env to .gitignore if it exists
     await ensureGitignore();
-
-    console.log(`API key successfully stored in ${envPath}`);
-    console.log('Make sure to add .env to your .gitignore file to avoid committing sensitive data!');
     
     return true;
   } catch (error) {
-    console.error('Error storing API key:', error.message);
+    console.error('Error storing Env var:', error.message);
     return false;
   }
 }
@@ -78,9 +75,8 @@ async function ensureGitignore() {
   }
 }
 
-const EnvProvider = {
+module.exports = {
   getEnvVar,
   setEnvVar,
   ensureGitignore,
 };
-module.exports = EnvProvider;

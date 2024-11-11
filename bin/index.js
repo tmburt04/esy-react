@@ -1,19 +1,22 @@
 #!/usr/bin/env node
-const { addProjectCmds, addProject } = require('./archetypes/project');
-const { initBrowserExt, initBrowserExtCmds } = require('./archetypes/browser-ext');
-const { addComponent, addComponentCmds } = require('./archetypes/component');
-const { addHookCmds, addHook } = require('./archetypes/hook');
-const { addPageCmds, addPage } = require('./archetypes/page');
-const { addContextCmds, addContext } = require('./archetypes/context');
-const { addServiceWorkerCmds, addServiceWorker } = require('./archetypes/service-worker');
-const { addContentScriptCmds, addContentScript } = require('./archetypes/content-script');
-const { findNearestProject, projectHasBrowserExt } = require('./archetypes/_common');
-const { getRandomWelcome, getRandomActionPrompt } = require('./utils/joke-util');
+const { addProjectCmds, addProject } = require('../src/services/project');
+const { addComponent, addComponentCmds } = require('../src/services/component');
+const { addHookCmds, addHook } = require('../src/services/hook');
+const { addPageCmds, addPage } = require('../src/services/page');
+const { addContextCmds, addContext } = require('../src/services/context');
+const { addServiceWorkerCmds, addServiceWorker } = require('../src/services/service-worker');
+const { addContentScriptCmds, addContentScript } = require('../src/services/content-script');
+const { findNearestProject, projectHasBrowserExt } = require('../src/services/_common');
+const { getRandomWelcome, getRandomActionPrompt } = require('../src/providers/joke.provider');
+const { initBrowserExtCmds, initBrowserExt, fetchContentScripts } = require('../src/services/browser-ext');
 
 const nearestPublicPath = findNearestProject('public', false);
 
 const spacer = Array(3).fill('.....').join('');
 
+/**
+ * Base CLI commands all disabled by default
+ */
 let menuStatus = {
   project: false,
   page: false,

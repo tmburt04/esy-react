@@ -172,7 +172,7 @@ const getRandomActionPrompt = () => {
 };
 
 
-export {
+module.exports = {
   getRandomActionPrompt,
   getRandomWaitingJoke,
   getRandomWelcome,

@@ -1,7 +1,7 @@
 const { prompt } = require('inquirer');
 const { findNearestProject, projectHasTypeScript, projectHasBrowserExt } = require('./_common');
 const { ensureDir } = require('fs-extra');
-const { reactContentScriptFactory } = require('./templates/esyr/src/content-scripts');
+const { reactContentScriptFactory } = require('./_templates/esyr/src/content-scripts');
 
 const addContentScriptCmds = ['cs', 'content-script'];
 
