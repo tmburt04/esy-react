@@ -1,5 +1,10 @@
 # ESY React Changelog
 
+### 2.0.4
+- Fixed broken LLM calls
+
+### 2.0.3
+- Fixed bad references from code refactor
 
 ### 2.0.2
 - Project directory restructure to meet standards.

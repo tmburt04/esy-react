@@ -36,7 +36,7 @@ async function askClaude(prompt, sysPromptType, apiKey) {
                         content: prompt
                     }
                 ],
-                max_tokens: 1024
+                max_tokens: 1024 * 2
             })
         });
 
