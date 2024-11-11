@@ -18,7 +18,7 @@ async function promptForApiKey(vendor) {
   
   try {
     console.log('\nNo API key found in environment variables.');
-    const apiKey = await question('Please enter your API key: ');
+    const apiKey = await question('Please enter your API key: \n');
     rl.close();
     
     // Store the new API key
@@ -94,4 +94,4 @@ const ApiProvider = {
   isApiKeySet,
   removeApiKey
 };
-module.exports = ApiProvider;
+module.exports = {ApiProvider};

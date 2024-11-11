@@ -1,6 +1,6 @@
 const { askClaude } = require("../providers/claude/claude.provider");
 const { prompt } = require("inquirer");
-const ApiProvider = require("../providers/api-provider");
+const {ApiProvider} = require("../providers/api-provider");
 const { setEnvVar, getEnvVar } = require("./env.util");
 
 /**
@@ -25,23 +25,11 @@ async function tryAskLLM(type = 'component') {
         },
     ]);
     if (codePrompt) {
-        const isSet = await ApiProvider.isApiKeySet(vendor);
-        if (!isSet) {
-            const { apiKey } = await prompt([
-                {
-                    type: 'password',
-                    name: 'apiKey',
-                    message: `\n${defaultProvider} API Key not set! Provide one below or ignore to create the component anyways.\n\n`,
-                },
-            ]);
-            if (apiKey) {
-                await ApiProvider.setApiKey(apiKey);
-            } else {
-                console.log(`\n${defaultProvider}  API Key not set. Generating component without AI`);
-                return;
-            }
-        }
-        const key = await ApiProvider.getApiKey(vendor);
+        const key = await ApiProvider.getApiKey(defaultProvider);
+        if (!key) {
+            console.log(`\n\nNo API key found for ${defaultProvider}.\n\n`);
+            return;
+        };
 
         switch (defaultProvider) {
             case 'claude':
