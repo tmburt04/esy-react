@@ -1,5 +1,8 @@
 # ESY React Changelog
 
+### 2.0.5
+- Sample page and component code did not return JSX. Fixed.
+
 ### 2.0.4
 - Fixed broken LLM calls
 
