@@ -20,7 +20,6 @@ class ProgressUtil {
             readline.cursorTo(process.stdout, 0);
             
             // Write the new frame
-            process.stdout.write(`\n\n\n`);
             process.stdout.write(`${this.frames[this.currentFrame]} ${message}`);
             
             // Move to next frame
@@ -29,13 +28,12 @@ class ProgressUtil {
     }
 
     stop() {
-        process.stdout.write(`\n\n\n`);
         clearInterval(this.interval);
         // Clear the current line
         readline.clearLine(process.stdout, 0);
         readline.cursorTo(process.stdout, 0);
         // Show the cursor again
-        process.stdout.write('\x1B[?25h');
+        process.stdout.write('\n\n\n\x1B[?25h');
     }
 }
 

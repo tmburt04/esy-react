@@ -1,5 +1,10 @@
 # ESY React Changelog
 
+### 2.0.6
+- `esyr reset` command removes the local env file that has API keys and any user preferences.
+- Version number now displays in the CLI.
+- Improved error handling.
+
 ### 2.0.5
 - Sample page and component code did not return JSX. Fixed.
 

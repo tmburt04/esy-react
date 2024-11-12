@@ -15,6 +15,7 @@ const { reactPageFactory } = require('./_templates/esyr/src/pages');
 const { reactComponentFactory } = require('./_templates/esyr/src/components');
 const { prettierFactory } = require('./_templates/esyr/prettier');
 const { postcssFactory } = require('./_templates/esyr/postcss');
+const { getCompletionMsg } = require('../providers/joke.provider');
 
 const addProjectCmds = ['proj', 'project'];
 
@@ -175,8 +176,9 @@ dist/*.(js|css|json|map|html)
 .DS_STORE`),
   ]);
 
-  console.log('\n\nProject created successfully!\n');
-  console.log('Installing dependencies...\n\n');
+  const completedMessage = getCompletionMsg(projectName);
+  console.log(`\n\n${completedMessage}\n`);
+  console.log('\n\nInstalling dependencies...\n\n');
   subprocess.execSync(`cd ${projectName} && npm install && npm run format`);
 }
 

@@ -4,6 +4,7 @@ const { reactPageFactory } = require('./_templates/esyr/src/pages');
 const { ensureDir, exists } = require('fs-extra');
 const { PrefProvider } = require('../providers/pref.provider');
 const { tryAskLLM } = require('../utils/llm.util');
+const { getCompletionMsg, getFailureMsg } = require('../providers/joke.provider');
 
 /**
  * @description Commands that will trigger the addPage function.
@@ -62,9 +63,11 @@ async function addPage() {
       useTypeScript,
       contentOverride: codeOverride
     });
-    console.log(`\n\n\n'${pageName}' created successfully!\n\n\n`);
+    const completedMessage = getCompletionMsg(pageName);
+    console.log(`\n\n\n${completedMessage}\n\n\n`);
   } catch (err) {
-    console.error('\n\n\nSomething went wrong!\n', err);
+    const errMessage = getFailureMsg();
+    console.error(`\n\n\n${errMessage}\n`, err);
   }
 }
 

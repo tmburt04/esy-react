@@ -1,7 +1,9 @@
 const { askClaude } = require("../providers/claude/claude.provider");
 const { prompt } = require("inquirer");
-const {ApiProvider} = require("../providers/api-provider");
+const { ApiProvider } = require("../providers/api-provider");
 const { setEnvVar, getEnvVar } = require("./env.util");
+const { ProgressUtil } = require("./progress.util");
+const { getRandomWaitingJoke } = require("../providers/joke.provider");
 
 /**
  * @function tryAskLLM
@@ -30,16 +32,25 @@ async function tryAskLLM(type = 'component') {
             console.log(`\n\nNo API key found for ${defaultProvider}.\n\n`);
             return;
         };
+        const progress = new ProgressUtil();
 
-        switch (defaultProvider) {
-            case 'claude':
-            default:
-                codeResult = await askClaude(codePrompt, type, key);
-                break;
+        try {
+            const loadingJoke = getRandomWaitingJoke(defaultProvider);
+            progress.start(loadingJoke);
+            switch (defaultProvider) {
+                case 'claude':
+                default:
+                    codeResult = await askClaude(codePrompt, type, key);
+                    break;
+            }
+            progress.stop();
+        } catch (error) {
+            progress.stop();
+            throw new Error(error.message);
         }
-    }
 
-    return codeResult;
+        return codeResult;
+    }
 }
 
-module.exports = {tryAskLLM};
+module.exports = { tryAskLLM };

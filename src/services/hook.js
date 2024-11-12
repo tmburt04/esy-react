@@ -3,6 +3,7 @@ const { findNearestProject, projectHasTypeScript } = require('./_common');
 const { exists, ensureDir } = require('fs-extra');
 const { reactHookFactory } = require('./_templates/esyr/src/hooks');
 const {PrefProvider} = require('../providers/pref.provider');
+const { getCompletionMsg } = require('../providers/joke.provider');
 
 const addHookCmds = ['h', 'hook'];
 
@@ -34,7 +35,8 @@ async function addHook() {
       hookPath,
       useTypeScript,
     });
-    console.log(`\n\n\n'${hookName}' created successfully!\n\n\n`);
+    const completedMessage = getCompletionMsg(hookName);
+    console.log(`\n\n\n${completedMessage}\n\n\n`);
   } catch (err) {
     console.error('\n\n\nSomething went wrong!\n', err);
   }

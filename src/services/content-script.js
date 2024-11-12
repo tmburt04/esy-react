@@ -2,6 +2,7 @@ const { prompt } = require('inquirer');
 const { findNearestProject, projectHasTypeScript, projectHasBrowserExt } = require('./_common');
 const { ensureDir } = require('fs-extra');
 const { reactContentScriptFactory } = require('./_templates/esyr/src/content-scripts');
+const { getCompletionMsg } = require('../providers/joke.provider');
 
 const addContentScriptCmds = ['cs', 'content-script'];
 
@@ -49,7 +50,8 @@ async function addContentScript() {
       contentScriptPath,
       useTypeScript,
     });
-    console.log(`\n\n\n'${contentScriptName}' created successfully!\n\n\n`);
+    const completedMessage = getCompletionMsg(contentScriptName);
+    console.log(`\n\n\n${completedMessage}\n\n\n`);
   } catch (err) {
     console.error('\n\n\nSomething went wrong!\n', err);
   }

@@ -13,9 +13,6 @@ async function askClaude(prompt, sysPromptType, apiKey) {
     if (!apiKey) {
         throw new Error('API key is required');
     }
-    const progress = new ProgressUtil();
-    const loadingJoke = getRandomWaitingJoke('Claude');
-    progress.start(loadingJoke);
     const model = ClaudeModel
     const sysPrompt = model.sysPrompt[sysPromptType];
 
@@ -40,18 +37,17 @@ async function askClaude(prompt, sysPromptType, apiKey) {
             })
         });
 
+        const data = await response.json();
+
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(`API request failed: ${errorData.error?.message || response.statusText}`);
+            console.log('\n\nClaude error response:\n', data);
+            throw new Error(`API request failed: ${data.error?.message || response.statusText}`);
         }
 
-        const data = await response.json();
-        progress.stop();
         return data.content[0].text;
 
     } catch (error) {
-        console.error('Error calling 3rd party Rest API:', error.message);
-        progress.stop();
+        throw error;
     }
 }
 

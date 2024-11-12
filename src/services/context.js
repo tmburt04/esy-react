@@ -2,6 +2,7 @@ const { prompt } = require('inquirer');
 const { findNearestProject, projectHasTypeScript } = require('./_common');
 const { exists, ensureDir } = require('fs-extra');
 const { reactContextFactory } = require('./_templates/esyr/src/contexts');
+const { getCompletionMsg } = require('../providers/joke.provider');
 
 const addContextCmds = ['ctx', 'context'];
 
@@ -31,7 +32,8 @@ async function addContext() {
       contextPath,
       useTypeScript,
     });
-    console.log(`\n\n\n'${contextName}' created successfully!\n\n\n`);
+    const completedMessage = getCompletionMsg(contextName);
+    console.log(`\n\n\n${completedMessage}\n\n\n`);
   } catch (err) {
     console.error('\n\n\nSomething went wrong!\n', err);
   }

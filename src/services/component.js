@@ -4,6 +4,7 @@ const { reactComponentFactory } = require('./_templates/esyr/src/components');
 const { ensureDir, exists } = require('fs-extra');
 const { tryAskLLM } = require('../utils/llm.util');
 const { PrefProvider } = require('../providers/pref.provider');
+const { getCompletionMsg, getFailureMsg } = require('../providers/joke.provider');
 
 const addComponentCmds = ['c', 'component'];
 
@@ -58,9 +59,11 @@ async function addComponent() {
       useTypeScript,
       contentOverride: codeOverride,
     });
-    console.log(`\n\n\n'${componentName}' created successfully!\n\n\n`);
+    const completedMessage = getCompletionMsg(componentName);
+    console.log(`\n\n\n${completedMessage}\n\n\n`);
   } catch (err) {
-    console.error('\n\n\nSomething went wrong!\n', err);
+    const errMessage = getFailureMsg();
+    console.error(`\n\n\n${errMessage}\n`, err);
   }
 }
 

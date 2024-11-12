@@ -1,4 +1,5 @@
-#!/usr/bin/env node
+#!/usr/bin/env node --no-warnings
+
 const { addProjectCmds, addProject } = require('../src/services/project');
 const { addComponent, addComponentCmds } = require('../src/services/component');
 const { addHookCmds, addHook } = require('../src/services/hook');
@@ -9,10 +10,43 @@ const { addContentScriptCmds, addContentScript } = require('../src/services/cont
 const { findNearestProject, projectHasBrowserExt } = require('../src/services/_common');
 const { getRandomWelcome, getRandomActionPrompt } = require('../src/providers/joke.provider');
 const { initBrowserExtCmds, initBrowserExt, fetchContentScripts } = require('../src/services/browser-ext');
+const { resetEnv, getEnv } = require('../src/utils/env.util');
 
 const nearestPublicPath = findNearestProject('public', false);
 
 const spacer = Array(3).fill('.....').join('');
+
+const resetCmds = ['reset','rs'];
+
+const displayWelcome = () => {
+  const welcome = getRandomWelcome()
+  const actionPrompt = getRandomActionPrompt()
+  const version = process.env.npm_package_version;
+  const hasClaude = process.env.CLAUDE ? '🐶' : '';
+  const llmList = [];
+  const config = getEnv()
+  console.warn(process.env);
+  console.warn(`
+    ESYR - Esy React CLI ${version && `(v${version})`}\n
+
+    General Commands:\n
+    \tProject${spacer}${menuStatus.project ? `[${addProjectCmds.join(', ')}]` : 'UNAVAILABLE'}
+    \tPage${spacer}${menuStatus.page ? `[${addPageCmds.join(', ')}]` : 'UNAVAILABLE'}
+    \tComponent${spacer}${menuStatus.component ? `[${addComponentCmds.join(', ')}]` : 'UNAVAILABLE'}
+    \tHook${spacer}${menuStatus.hook ? `[${addHookCmds.join(', ')}]` : 'UNAVAILABLE'}
+    \tContext${spacer}${menuStatus.context ? `[${addContextCmds.join(', ')}]\n` : 'UNAVAILABLE'}
+    \tService Worker${spacer}${menuStatus.serviceWorker ? `[${addServiceWorkerCmds.join(', ')}]` : 'UNAVAILABLE'}
+    
+    Browser Ext Commands:\n
+    \tInitialize Extension*${spacer}${menuStatus.browserExt ? `[${initBrowserExtCmds.join(', ')}]` : 'UNAVAILABLE'}
+    \tContent Script*${spacer}${menuStatus.contentScript ? `[${addContentScriptCmds.join(', ')}]` : 'UNAVAILABLE'}
+
+    Troubleshooting:\n\n${llmList?.length ? `LLM Support: ${llmList.join(', ')}\n` : ''}\tReset${spacer}[${resetCmds.join(', ')}]\n
+
+    ${welcome}\n
+    ${actionPrompt}\n
+`);
+  }
 
 /**
  * Base CLI commands all disabled by default
@@ -29,6 +63,15 @@ let menuStatus = {
 };
 
 return (async () => {
+
+  if (process.argv.find((_arg) => ['--help', '-h'].includes(_arg?.toLowerCase()))) {
+    return displayWelcome();
+  }
+  
+  if (process.argv.find((_arg) => resetCmds.includes(_arg?.toLowerCase()))) {
+    return resetEnv().catch(console.error);
+  }
+
   /**
    * if no project exists, only allow project creation
    */
@@ -82,23 +125,5 @@ return (async () => {
       }
     }
   }
-
-  const welcome = getRandomWelcome()
-  const actionPrompt = getRandomActionPrompt()
-  console.warn(`
-    ESYR - Esy React CLI\n
-    General Commands:\n
-    \tProject${spacer}${menuStatus.project ? `[${addProjectCmds.join(', ')}]` : 'UNAVAILABLE'}
-    \tPage${spacer}${menuStatus.page ? `[${addPageCmds.join(', ')}]` : 'UNAVAILABLE'}
-    \tComponent${spacer}${menuStatus.component ? `[${addComponentCmds.join(', ')}]` : 'UNAVAILABLE'}
-    \tHook${spacer}${menuStatus.hook ? `[${addHookCmds.join(', ')}]` : 'UNAVAILABLE'}
-    \tContext${spacer}${menuStatus.context ? `[${addContextCmds.join(', ')}]\n` : 'UNAVAILABLE'}
-    \tService Worker${spacer}${menuStatus.serviceWorker ? `[${addServiceWorkerCmds.join(', ')}]` : 'UNAVAILABLE'}\n
-    
-    Browser Ext Commands:\n
-    \tInitialize Extension*${spacer}${menuStatus.browserExt ? `[${initBrowserExtCmds.join(', ')}]` : 'UNAVAILABLE'}
-    \tContent Script*${spacer}${menuStatus.contentScript ? `[${addContentScriptCmds.join(', ')}]` : 'UNAVAILABLE'}\n\n
-    ${welcome}\n
-    ${actionPrompt}\n
-`);
+  return displayWelcome();
 })();
