@@ -36,11 +36,12 @@ async function addPage() {
   try {
     const _exists = await exists(pagePath);
     if (_exists) {
+      console.log('\n');
       const { overwriteExisting } = await prompt([
         {
           type: 'confirm',
           name: 'overwriteExisting',
-          message: `\n\n\n'${pageName}' already exists! Do you want to overwrite it?\n`, 
+          message: `'${pageName}' already exists! Do you want to overwrite it?`, 
           default: false,
         }
       ]);

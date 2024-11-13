@@ -52,7 +52,7 @@ Additional requirements:
 `;
 
 const ClaudeModel = {
-    id: 'claude-3-sonnet-20241022',
+    id: 'claude-3-sonnet-20240229',
     short: 'Claude',
     name: 'Claude Sonnet',
     sysPrompt: {

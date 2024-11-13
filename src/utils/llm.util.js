@@ -19,11 +19,12 @@ async function tryAskLLM(type = 'component') {
         defaultProvider = 'claude';
         await setEnvVar('DEFAULT_AI_PROVIDER', defaultProvider);
     }
+    console.log('\n')
     const { codePrompt } = await prompt([
         {
             type: 'input',
             name: 'codePrompt',
-            message: `\nPrompt for generating code w/${defaultProvider}? (ignore and press ENTER to not use AI)\n\n`,
+            message: `Prompt for generating code w/${defaultProvider}? (ignore and press ENTER to not use AI)\n`,
         },
     ]);
     if (codePrompt) {
@@ -32,6 +33,7 @@ async function tryAskLLM(type = 'component') {
             console.log(`\n\nNo API key found for ${defaultProvider}.\n\n`);
             return;
         };
+        console.log('\n')
         const progress = new ProgressUtil();
 
         try {
@@ -49,6 +51,7 @@ async function tryAskLLM(type = 'component') {
             throw new Error(error.message);
         }
 
+        console.log('\n');
         return codeResult;
     }
 }

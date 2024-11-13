@@ -18,17 +18,19 @@ const spacer = Array(3).fill('.....').join('');
 
 const resetCmds = ['reset','rs'];
 
-const displayWelcome = () => {
+const displayWelcome = async () => {
   const welcome = getRandomWelcome()
   const actionPrompt = getRandomActionPrompt()
   const version = process.env.npm_package_version;
-  const hasClaude = process.env.CLAUDE ? '🐶' : '';
   const llmList = [];
-  const config = getEnv()
-  console.warn(process.env);
+  const config = await getEnv()
+  if (config.CLAUDE_API_KEY) {
+    // Check mark is valid!
+    llmList.push('✅ API Key for Claude');
+  }
+  // console.warn({config, hasClaude});
   console.warn(`
-    ESYR - Esy React CLI ${version && `(v${version})`}\n
-
+    ESYR - Esy React CLI ${!version ? '' : `(v${version})`}\n
     General Commands:\n
     \tProject${spacer}${menuStatus.project ? `[${addProjectCmds.join(', ')}]` : 'UNAVAILABLE'}
     \tPage${spacer}${menuStatus.page ? `[${addPageCmds.join(', ')}]` : 'UNAVAILABLE'}
@@ -41,7 +43,7 @@ const displayWelcome = () => {
     \tInitialize Extension*${spacer}${menuStatus.browserExt ? `[${initBrowserExtCmds.join(', ')}]` : 'UNAVAILABLE'}
     \tContent Script*${spacer}${menuStatus.contentScript ? `[${addContentScriptCmds.join(', ')}]` : 'UNAVAILABLE'}
 
-    Troubleshooting:\n\n${llmList?.length ? `LLM Support: ${llmList.join(', ')}\n` : ''}\tReset${spacer}[${resetCmds.join(', ')}]\n
+    Troubleshooting:\n\n\tReset${spacer}[${resetCmds.join(', ')}]${llmList?.length ? `\n\n\t${llmList.join(', ')}` : ''}\n
 
     ${welcome}\n
     ${actionPrompt}\n

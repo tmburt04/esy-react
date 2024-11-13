@@ -22,7 +22,6 @@ async function getApiKey(vendor) {
   try {
     vendor = vendor.toUpperCase();
     const apiKey = await getEnvVar(`${vendor}_API_KEY`);
-    console.warn('apiKey:'+`${vendor}_API_KEY`, apiKey);
     if (apiKey) {
       return apiKey;
     }
