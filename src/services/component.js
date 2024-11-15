@@ -4,7 +4,7 @@ const { reactComponentFactory } = require('./_templates/esyr/src/components');
 const { ensureDir, exists } = require('fs-extra');
 const { tryAskLLM } = require('../utils/llm.util');
 const { PrefProvider } = require('../providers/pref.provider');
-const { getCompletionMsg, getFailureMsg } = require('../providers/joke.provider');
+const { getCompletionMsg, getFailureMsg, getAbortMsg } = require('../providers/joke.provider');
 
 const addComponentCmds = ['c', 'component'];
 
@@ -41,7 +41,8 @@ async function addComponent() {
         }
       ]);
       if (!overwriteExisting) {
-        console.log(`\n\n\n'${componentName}' ignored.\n\n\n`);
+        const abortMsg = getAbortMsg(componentName);
+        console.log(`\n\n\n${abortMsg}\n\n\n`);
         return;
       }
     } else {

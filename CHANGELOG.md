@@ -1,5 +1,11 @@
 # ESY React Changelog
 
+### 2.0.7
+- Improved verbiage on overwrite cancellation prompts.
+- Issue template for easier bug reporting.
+- Documentation updates.
+
+
 ### 2.0.6
 - `esyr reset` command removes the local env file that has API keys and any user preferences.
 - Version number now displays in the CLI.

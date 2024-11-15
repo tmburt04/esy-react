@@ -1,6 +1,6 @@
-# ESY React App
+# ESy React CLI
 ## Description
-`esy-react-cli` is a minimalist, yet robust command-line interface tool designed to streamline React development and compete with popular options like `create-react-app`. By automating component creation and project scaffolding, `esy-react-cli` aims to boost developer productivity and efficiency.
+`esy-react-cli` is a minimalist, yet robust command-line interface tool designed to streamline React development and compete with popular options like `create-react-app`. By automating component creation and project scaffolding, `esy-react-cli` aims to boost developer productivity and efficiency. Named after the build tool it uses, "ESBuild", the CLI leverages cutting-edge technology to deliver a fast, lightweight, and user-friendly development experience. With optional AI-powered features, `esy-react-cli` offers intelligent code generation capabilities to further enhance the development process.
 
 ## AI Integration
 `esy-react-cli` includes optional AI-powered features that are disabled by default and require explicit user opt-in to enhance the development experience. All AI capabilities are implemented with complete transparency - the source code is open for review on GitHub, and the project maintains a strict policy regarding API key management, where keys are never stored within the codebase. For security and privacy, users manage their own API keys locally through environment variables, with no keys ever transmitted to or stored on the project's servers. The CLI maintains full functionality without AI integration, ensuring developers have complete control over their development experience.
@@ -58,6 +58,11 @@ Once installed, you can start using `esy-react-cli` to create new React projects
 
 ## Contributing
 We welcome contributions from the community! If you find any issues or have suggestions for improvements, please feel free to open a GitHub issue or submit a pull request.
+
+If you excel at prompt engineering, please review my System Prompt! I'd love to hear your thoughts on how to improve it. [Claude System Prompt](https://github.com/tmburt04/esy-react/blob/main/src/providers/claude/claude.model.js)
+
+## Issues/Bugs
+If you encounter any issues or bugs while using `esy-react-cli`, please report them on the [GitHub Issues](https://github.com/tmburt04/esy-react/issues/new) page. Use the provided issue template to ensure that your bug report contains all the necessary information for us to investigate and address the problem.
 
 ## License
 This project is licensed under the [MIT License](LICENSE).

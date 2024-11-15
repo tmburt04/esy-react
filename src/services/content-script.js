@@ -37,7 +37,8 @@ async function addContentScript() {
         }
       ]);
       if (!overwriteExisting) {
-        console.log(`\n\n\n'${contentScriptName}' ignored.\n\n\n`);
+        const abortMsg = getAbortMsg(contentScriptName);
+        console.log(`\n\n\n${abortMsg}\n\n\n`);
         return;
       }
     } else {

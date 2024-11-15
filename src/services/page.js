@@ -46,7 +46,8 @@ async function addPage() {
         }
       ]);
       if (!overwriteExisting) {
-        console.log(`\n\n\n'${pageName}' ignored.\n\n\n`);
+        const abortMsg = getAbortMsg(pageName);
+        console.log(`\n\n\n${abortMsg}\n\n\n`);
         return;
       }
     } else {
