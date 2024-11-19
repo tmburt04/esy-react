@@ -17,7 +17,8 @@ async function addContext() {
   ]);
 
   const useTypeScript = projectHasTypeScript();
-  const contextPath = findNearestProject('src/contexts');
+  const resolvedPath = await PrefProvider.tryAskPath('context', 'src/contexts');
+  const contextPath = findNearestProject(resolvedPath);
 
   try {
     const _exists = await exists(contextPath);

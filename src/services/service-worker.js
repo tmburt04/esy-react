@@ -2,6 +2,7 @@ const { join } = require('path');
 const { prompt } = require('inquirer');
 const { findNearestProject, projectHasTypeScript } = require('./_common');
 const { ensureDir, writeFile } = require('fs-extra');
+const { PrefProvider } = require('../providers/pref.provider');
 
 const addServiceWorkerCmds = ['sw', 'worker', 'service-worker'];
 
@@ -16,7 +17,8 @@ async function addServiceWorker() {
   ]);
 
   const useTypeScript = projectHasTypeScript();
-  const serviceWorkerPath = findNearestProject('src/workers');
+  const resolvedPath = await PrefProvider.tryAskPath('service worker', 'src/workers');
+  const serviceWorkerPath = findNearestProject(resolvedPath);
 
   if (!serviceWorkerPath) {
     console.error(
@@ -28,7 +30,7 @@ async function addServiceWorker() {
   // Create custom directory
   await ensureDir(serviceWorkerPath);
 
-  console.log(`Creating a new Service Worker in ${serviceWorkerPath}`);
+  console.log(`Creating a new Service Worker in '${resolvedPath}'`);
 
   const serviceWorkerFileContent = `
     // Service Worker content

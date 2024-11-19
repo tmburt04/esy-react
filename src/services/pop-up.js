@@ -2,6 +2,7 @@ const { join } = require('path');
 const { prompt } = require('inquirer');
 const { findNearestProject, projectHasTypeScript } = require('./_common');
 const { ensureDir, writeFile } = require('fs-extra');
+const { PrefProvider } = require('../providers/pref.provider');
 
 const addPopUpCmds = ['popup', 'pop-up'];
 
@@ -16,7 +17,8 @@ async function addPopUp() {
   ]);
 
   const useTypeScript = projectHasTypeScript();
-  const popUpPath = findNearestProject('src/pop-ups');
+  const resolvedPath = await PrefProvider.tryAskPath('Browser Ext Pop-up', 'src/pop-ups');
+  const popUpPath = findNearestProject(resolvedPath);
 
   if (!popUpPath) {
     console.error(

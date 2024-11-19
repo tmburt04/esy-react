@@ -22,8 +22,8 @@ async function addHook() {
   ]);
 
 
-  const hookPath = findNearestProject(`./src/hooks`);
-  // const hookPath = await PrefProvider.tryAskPath('hook', groupPath);
+  const resolvedPath = await PrefProvider.tryAskPath('hook', 'src/hooks');
+  const hookPath = findNearestProject(resolvedPath);
 
   const useTypeScript = projectHasTypeScript();
 

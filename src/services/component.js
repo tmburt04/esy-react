@@ -22,8 +22,8 @@ async function addComponent() {
     },
   ]);
 
-  const groupPath = findNearestProject(`./src/components`);
-  // const resolvedPath = await PrefProvider.tryAskPath('component', groupPath);
+  const resolvedPath = await PrefProvider.tryAskPath('component', 'src/components');
+  const groupPath = findNearestProject(resolvedPath);
   const componentPath = `${groupPath}/${componentName}`;
 
   const useTypeScript = projectHasTypeScript();

@@ -8,6 +8,7 @@
 ## Key Features
 - **Faster Project Setup**: Create a new React project with a single command, `esyr project`.
 - **Streamlined Component Creation**: Generate reusable components with `esyr component`, saving time and promoting consistency.
+- **Custom Paths for Scaffolding**: Define custom paths for **all** commands within a project.
 - **Intelligent Scaffolding**: Leverage AI-powered features to scaffold pages, hooks, and other project elements (opt-in).
 - **Transparent AI Integration**: The AI capabilities are fully open-source and respect user privacy by enabling local API key management.
 - **Minimal Footprint**: `esy-react-cli` is a lightweight tool that avoids bloat, making it a lean alternative to `create-react-app`.
@@ -28,7 +29,8 @@ Once installed, you can start using `esy-react-cli` to create new React projects
 2. `npm i`
 3. `npm run link`
 
-## Folder Structure
+## Default Folder Structure
+Settings are stored in a `.env` file in the root of the project or cli installation. On first run of each command, the user will be prompted to set a custom path for future use of that command. The default structure is as follows:
 ```
 {project name}/
 ├── public/
@@ -43,6 +45,8 @@ Once installed, you can start using `esy-react-cli` to create new React projects
 │   ├── pop-ups/
 ```
 
+To clear out settings and any api keys set, run `esyr reset`.
+
 ## Commands
 | Cmd | Short Cmd | Description | AI Support |
 | --- | --- | --- | --- |
@@ -55,6 +59,7 @@ Once installed, you can start using `esy-react-cli` to create new React projects
 | `esyr browser-ext` | `esyr ext` | WIP - Initializes a react project as a browser ext (experimental) | - |
 | `esyr content-script` | `esyr cs` | WIP - Creates a content script for a react project that has a browser ext (experimental) | - |
 | `esyr reset` | `esyr rs` | Removes the local env file that has API keys and any user preferences. | - |
+
 
 ## Contributing
 We welcome contributions from the community! If you find any issues or have suggestions for improvements, please feel free to open a GitHub issue or submit a pull request.

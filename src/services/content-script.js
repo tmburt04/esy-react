@@ -3,6 +3,7 @@ const { findNearestProject, projectHasTypeScript, projectHasBrowserExt } = requi
 const { ensureDir } = require('fs-extra');
 const { reactContentScriptFactory } = require('./_templates/esyr/src/content-scripts');
 const { getCompletionMsg } = require('../providers/joke.provider');
+const { PrefProvider } = require('../providers/pref.provider');
 
 const addContentScriptCmds = ['cs', 'content-script'];
 
@@ -23,7 +24,8 @@ async function addContentScript() {
 
   projectHasBrowserExt(); // ENSURE the project has a browser extension configured
 
-  const contentScriptPath = findNearestProject('src/content-scripts');
+  const resolvedPath = await PrefProvider.tryAskPath('content script', 'src/content-scripts');
+  const contentScriptPath = findNearestProject(resolvedPath);
 
   try {
     const _exists = await exists(contentScriptPath);

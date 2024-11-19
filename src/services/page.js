@@ -4,7 +4,7 @@ const { reactPageFactory } = require('./_templates/esyr/src/pages');
 const { ensureDir, exists } = require('fs-extra');
 const { PrefProvider } = require('../providers/pref.provider');
 const { tryAskLLM } = require('../utils/llm.util');
-const { getCompletionMsg, getFailureMsg } = require('../providers/joke.provider');
+const { getCompletionMsg, getFailureMsg, getAbortMsg } = require('../providers/joke.provider');
 
 /**
  * @description Commands that will trigger the addPage function.
@@ -26,8 +26,8 @@ async function addPage() {
     },
   ]);
 
-  const groupPath = findNearestProject(`./src/pages`);
-  // const resolvedPath = await PrefProvider.tryAskPath('page', groupPath);
+  const resolvedPath = await PrefProvider.tryAskPath('page', 'src/pages');
+  const groupPath = findNearestProject(resolvedPath);
   const pagePath = `${groupPath}/${pageName}`;
 
   const useTypeScript = projectHasTypeScript();
