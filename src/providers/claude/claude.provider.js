@@ -1,6 +1,5 @@
+const { ApiProvider } = require("../api-provider");
 const { ClaudeModel } = require("./claude.model");
-const { getRandomWaitingJoke } = require("../joke.provider");
-const { ProgressUtil } = require("../../utils/progress.util");
 
 /**
  * 
@@ -17,7 +16,7 @@ async function askClaude(prompt, sysPromptType, apiKey) {
     const sysPrompt = model.sysPrompt[sysPromptType];
 
     try {
-        const response = await fetch('https://api.anthropic.com/v1/messages', {
+        const response = await ApiProvider.fetchWithExpBackoff('https://api.anthropic.com/v1/messages', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

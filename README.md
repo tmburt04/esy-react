@@ -60,6 +60,18 @@ To clear out settings and any api keys set, run `esyr reset`.
 | `esyr content-script` | `esyr cs` | WIP - Creates a content script for a react project that has a browser ext (experimental) | - |
 | `esyr reset` | `esyr rs` | Removes the local env file that has API keys and any user preferences. | - |
 
+## Release Notes
+### **Version 2**
+- `esyr page` and `esyr component` now offer code generation with Claude Sonnet.
+- Optional path setting for all commands.
+- Optional file overwrite for all commands. (existing files)
+- Added a meta-DX feature to allow for ease of install locally.
+- Config reset command added.
+- Added fun messages to commands for a more enjoyable experience.
+
+### **Version 1**
+- Scaffold a new React project with `esyr project` and create various components.
+
 
 ## Contributing
 We welcome contributions from the community! If you find any issues or have suggestions for improvements, please feel free to open a GitHub issue or submit a pull request.

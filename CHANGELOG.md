@@ -1,5 +1,9 @@
 # ESY React Changelog
 
+### 2.0.9
+- Exponential backoff for Third party API calls.
+- Updated documentation
+
 ### 2.0.8
 - Made paths configurable for all commands.
 
