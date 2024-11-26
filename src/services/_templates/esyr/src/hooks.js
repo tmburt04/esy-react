@@ -5,7 +5,7 @@ const { join } = require('path');
  * Builds a React hook file
  */
 const reactHookFactory = async ({ hookName, hookPath, useTypeScript, contentOverride }) => {
-  const hookFileContent = `import React, { useEffect } from 'react';
+  let hookFileContent = `import React, { useEffect } from 'react';
 
 export const ${hookName} = () => {
 
@@ -18,6 +18,11 @@ export const ${hookName} = () => {
 }
   
 export default ${hookName}`;
+
+// Override the file content if provided (b/c we want claude to handle function parameters)
+if (contentOverride?.length > 0) {
+  hookFileContent = contentOverride;
+}
 
   const hookFileName = `${hookName}.${useTypeScript ? 'tsx' : 'jsx'}`;
 

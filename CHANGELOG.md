@@ -1,7 +1,12 @@
 # ESY React Changelog
 
+### 2.1.1
+- Hooks can now be generated with AI using the `esyr hook` command.
+- Added logo
+- Updated README.md
+
 ### 2.1.0
-- Service workers can now be generated with the `esyr sw` command.
+- Service workers can now be generated with AI using the `esyr sw` command.
 - Fixed bug with `esyr proj` command not setting the project root properly.
 - Added OAI models as options for code generation.
 - `esyr p` is now a shortcut for `esyr page`

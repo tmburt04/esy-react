@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="a" y2="100%">
+<stop stop-color="#61DAFB" stop-opacity=".2" offset="0"/>
+<stop stop-color="#764ABC" stop-opacity=".2" offset="1"/>
+</linearGradient>
+</defs>
+<circle cx="200" cy="100" r="80" fill="#2D3748" style="z-index:-999"/>
+<circle cx="200" cy="100" r="80" fill="url(#a)"/>
+<circle cx="200" cy="100" r="80" fill="#fff" opacity=".1"/>
+<g transform="translate(200 100)" fill="none" stroke="#61DAFB" stroke-width="2">
+<ellipse rx="60" ry="20" opacity=".5"/>
+<ellipse transform="rotate(60)" rx="60" ry="20" opacity=".5"/>
+<ellipse transform="rotate(120)" rx="60" ry="20" opacity=".5"/>
+<ellipse transform="rotate(60)" rx="59" ry="19" stroke-width=".5"/>
+<ellipse transform="rotate(120)" rx="59" ry="19" stroke-width=".5"/>
+<ellipse rx="59" ry="19" stroke-width=".5"/>
+</g>
+<g transform="translate(200 100)">
+<text y="15" fill="white" filter="drop-shadow(1px 2px 1px rgb(0 0 0 / 0.6))" font-family="monospace" font-size="50" font-weight="bold" letter-spacing="-.5" text-anchor="middle">>ESYR </text>
+</g>
+<g fill="#61DAFB">
+<circle cx="140" cy="50" r="3"/>
+<circle cx="260" cy="150" r="3"/>
+<circle cx="290" cy="70" r="3" opacity=".65"/>
+<circle cx="110" cy="130" r="3" opacity=".65"/>
+</g>
+</svg>

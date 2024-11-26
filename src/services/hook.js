@@ -4,6 +4,7 @@ const { exists, ensureDir } = require('fs-extra');
 const { reactHookFactory } = require('./_templates/esyr/src/hooks');
 const {PrefProvider} = require('../providers/pref.provider');
 const { getCompletionMsg } = require('../providers/joke.provider');
+const { tryAskLLM } = require('../providers/llm.provider');
 
 const addHookCmds = ['h', 'hook'];
 
@@ -27,12 +28,15 @@ async function addHook() {
 
   const useTypeScript = projectHasTypeScript();
 
+    // Asks the user if they want to use Claude to generate the hook content
+    const codeOverride = await tryAskLLM();
   try {
     await ensureDir(hookPath);
 
     await reactHookFactory({
       hookName,
       hookPath,
+      contentOverride: codeOverride,
       useTypeScript,
     });
     const completedMessage = getCompletionMsg(hookName);
