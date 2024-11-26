@@ -33,7 +33,7 @@ class ProgressUtil {
         readline.clearLine(process.stdout, 0);
         readline.cursorTo(process.stdout, 0);
         // Show the cursor again
-        process.stdout.write('\n\n\n\x1B[?25h');
+        process.stdout.write('\n\x1B[?25h');
     }
 }
 

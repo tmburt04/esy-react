@@ -1,6 +1,6 @@
 {
   "name": "esy-react-cli",
-  "version": "2.0.9",
+  "version": "2.1.0",
   "description": "Transform your React development workflow with this lightning-fast CLI tool that empowers you to launch production-ready apps in seconds. Seamlessly scaffold modern React applications with zero configuration, powered by battle-tested templates and optional AI assistance. Perfect for developers who value clean architecture and rapid deployment without the bloat. Stop wrestling with setup—start building.",
   "main": "./index.js",
   "scripts": {
@@ -11,7 +11,8 @@
     "publish": "bash ./scripts/publish.sh",
     "bundle": "bash ./scripts/bundle.sh",
     "start": "node ./bin/index.js",
-    "p": "node ./bin/index.js project",
+    "proj": "node ./bin/index.js project",
+    "p": "node ./bin/index.js page",
     "h": "node ./bin/index.js hook",
     "c": "node ./bin/index.js component",
     "page": "node ./bin/index.js page",

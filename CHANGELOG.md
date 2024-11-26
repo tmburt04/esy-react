@@ -1,5 +1,12 @@
 # ESY React Changelog
 
+### 2.1.0
+- Service workers can now be generated with the `esyr sw` command.
+- Fixed bug with `esyr proj` command not setting the project root properly.
+- Added OAI models as options for code generation.
+- `esyr p` is now a shortcut for `esyr page`
+- Updated documentation
+
 ### 2.0.9
 - Exponential backoff for Third party API calls.
 - Updated documentation

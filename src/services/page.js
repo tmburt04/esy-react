@@ -3,13 +3,13 @@ const { projectHasTypeScript, projectHasSass, findNearestProject } = require('./
 const { reactPageFactory } = require('./_templates/esyr/src/pages');
 const { ensureDir, exists } = require('fs-extra');
 const { PrefProvider } = require('../providers/pref.provider');
-const { tryAskLLM } = require('../utils/llm.util');
 const { getCompletionMsg, getFailureMsg, getAbortMsg } = require('../providers/joke.provider');
+const { tryAskLLM } = require('../providers/llm.provider');
 
 /**
  * @description Commands that will trigger the addPage function.
  */
-const addPageCmds = ['page'];
+const addPageCmds = ['page', 'p'];
 
 /**
  * @description Creates a new boilerplate react page to the nearest project.

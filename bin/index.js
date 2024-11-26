@@ -24,9 +24,15 @@ const displayWelcome = async () => {
   const version = process.env.npm_package_version;
   const llmList = [];
   const config = await getEnv()
-  if (config.CLAUDE_API_KEY) {
-    // Check mark is valid!
-    llmList.push('✅ API Key for Claude');
+  if (config.ANTHROPIC_API_KEY) {
+    llmList.push('✅ API Key for Anthropic');
+  } else {
+    llmList.push('❌ API Key for Anthropic');
+  }
+  if (config.OPENAI_API_KEY) {
+    llmList.push('✅ API Key for OpenAI');
+  } else {
+    llmList.push('❌ API Key for OpenAI');
   }
   // console.warn({config, hasClaude});
   console.warn(`
@@ -44,6 +50,7 @@ const displayWelcome = async () => {
     \tContent Script*${spacer}${menuStatus.contentScript ? `[${addContentScriptCmds.join(', ')}]` : 'UNAVAILABLE'}
 
     Troubleshooting:\n\n\tReset${spacer}[${resetCmds.join(', ')}]${llmList?.length ? `\n\n\t${llmList.join(', ')}` : ''}\n
+    *For advanced users, this value can be modified in the .env file\n
 
     ${welcome}\n
     ${actionPrompt}\n

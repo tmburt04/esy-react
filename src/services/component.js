@@ -2,9 +2,9 @@ const { prompt } = require('inquirer');
 const { findNearestProject, projectHasSass, projectHasTypeScript } = require('./_common');
 const { reactComponentFactory } = require('./_templates/esyr/src/components');
 const { ensureDir, exists } = require('fs-extra');
-const { tryAskLLM } = require('../utils/llm.util');
 const { PrefProvider } = require('../providers/pref.provider');
 const { getCompletionMsg, getFailureMsg, getAbortMsg } = require('../providers/joke.provider');
+const { tryAskLLM } = require('../providers/llm.provider');
 
 const addComponentCmds = ['c', 'component'];
 

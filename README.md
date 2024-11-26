@@ -61,7 +61,13 @@ To clear out settings and any api keys set, run `esyr reset`.
 | `esyr reset` | `esyr rs` | Removes the local env file that has API keys and any user preferences. | - |
 
 ## Release Notes
-### **Version 2**
+### **v2.1**
+- Fixed bug with `esyr proj` command not setting the project root properly.
+- Service workers can now be generated with the `esyr sw` command.
+- Added OpenAI's gpt-4o model as an option for code generation.
+- `esyr p` is now a shortcut for `esyr page`
+
+### **v2**
 - `esyr page` and `esyr component` now offer code generation with Claude Sonnet.
 - Optional path setting for all commands.
 - Optional file overwrite for all commands. (existing files)
@@ -69,7 +75,7 @@ To clear out settings and any api keys set, run `esyr reset`.
 - Config reset command added.
 - Added fun messages to commands for a more enjoyable experience.
 
-### **Version 1**
+### **Early Access/v1**
 - Scaffold a new React project with `esyr project` and create various components.
 
 

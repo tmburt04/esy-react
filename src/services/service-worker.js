@@ -3,6 +3,7 @@ const { prompt } = require('inquirer');
 const { findNearestProject, projectHasTypeScript } = require('./_common');
 const { ensureDir, writeFile } = require('fs-extra');
 const { PrefProvider } = require('../providers/pref.provider');
+const { tryAskLLM } = require('../providers/llm.provider');
 
 const addServiceWorkerCmds = ['sw', 'worker', 'service-worker'];
 
@@ -32,7 +33,10 @@ async function addServiceWorker() {
 
   console.log(`Creating a new Service Worker in '${resolvedPath}'`);
 
-  const serviceWorkerFileContent = `
+    // Asks the user if they want to use Claude to generate the content
+    const codeOverride = await tryAskLLM('sw');
+
+  const serviceWorkerFileContent = codeOverride || `
     // Service Worker content
     `;
 
