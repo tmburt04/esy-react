@@ -44,7 +44,7 @@ Once installed, you can start using `esy-react-cli` to create new React projects
 | Id | Model | Vendor | API Access |
 | ---| --- | --- | --- |
 | `claude-3-sonnet-20240229` | Claude Sonnet (new) | Anthropic | https://www.anthropic.com/api |
-| `gpt-4o-mini` | GPT-4o mini | OpenAI | https://docs.anthropic.com/en/api/getting-started |
+| `gpt-4o-mini` | GPT-4o mini | OpenAI | https://platform.openai.com/docs/models/gpt-4o |
 
 ## NPM Registry Installation
 1. `npm i -g esy-react-cli`
