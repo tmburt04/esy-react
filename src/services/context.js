@@ -3,6 +3,7 @@ const { findNearestProject, projectHasTypeScript } = require('./_common');
 const { exists, ensureDir } = require('fs-extra');
 const { reactContextFactory } = require('./_templates/esyr/src/contexts');
 const { getCompletionMsg } = require('../providers/joke.provider');
+const {PrefProvider} = require('../providers/pref.provider');
 
 const addContextCmds = ['ctx', 'context'];
 
@@ -21,12 +22,25 @@ async function addContext() {
   const contextPath = findNearestProject(resolvedPath);
 
   try {
-    const _exists = await exists(contextPath);
+    const _exists = await exists(resolvedPath);
     if (_exists) {
-      console.error(`\n\n\n'${contextName}' already exists!\n\n\n`);
-      return;
+      const { overwriteExisting } = await prompt([
+        {
+          type: 'confirm',
+          name: 'overwriteExisting',
+          message: `\n\n\n'${contextName}' already exists! Do you want to overwrite it?\n`, 
+          default: false,
+        }
+      ]);
+      if (!overwriteExisting) {
+        const abortMsg = getAbortMsg(contextName);
+        console.log(`\n\n\n${abortMsg}\n\n\n`);
+        return;
+      }
+    } else {
+      // Only create the directory if it doesn't exist
+      await ensureDir(resolvedPath);
     }
-    await ensureDir(contextPath);
 
     await reactContextFactory({
       contextName,

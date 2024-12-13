@@ -1,5 +1,10 @@
 # ESY React Changelog
 
+### 2.1.2
+- Fixed issue with `esyr context` command failing to scaffold.
+- The command `esyr context` now allows you to overwrite files.
+- Fixed bad link in README.md for OpenAI API key.
+
 ### 2.1.1
 - Hooks can now be generated with AI using the `esyr hook` command.
 - Added logo

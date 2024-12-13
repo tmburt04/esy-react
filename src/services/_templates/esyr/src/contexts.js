@@ -16,7 +16,7 @@ const reactContextFactory = async ({ useTypeScript, contextPath, contextName }) 
     dftContextValue = ` as ${contextName}Type`;
     contextProps = `: ${contextName}PropsType`;
     initialContextType = `<${contextName}Type>`;
-    contextPropTypeDef = `export type ${contextName}PropsType = {
+    contextPropTypeDef = `\n\nexport type ${contextName}PropsType = {
   children?: any;
 }`;
   }
@@ -25,8 +25,12 @@ const reactContextFactory = async ({ useTypeScript, contextPath, contextName }) 
 import React, { useContext, useEffect } from 'react'${contextType}
 
 export const defaultContext = {}${dftContextValue};
-export const ${contextName} = React.createContext${initialContextType}(defaultContext)${contextPropTypeDef}
 
+// Create context with a default value
+export const ${contextName} = React.createContext${initialContextType}(defaultContext);${contextPropTypeDef}
+
+
+// Context Provider to reference from central location
 export const ${contextName}Provider = ({ children }${contextProps}) => {
 
 useEffect(() => {
@@ -38,6 +42,12 @@ useEffect(() => {
       {children}
     </${contextName}.Provider>
   )
+}
+
+
+// Create custom hook to reference context easier (${contextName}Provider MUST be a parent of the component)
+export const use${contextName} = () => {
+  return useContext(${contextName});
 }
 `;
 
