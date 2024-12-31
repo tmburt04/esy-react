@@ -5,14 +5,19 @@ const { getRandomResetMsg } = require('../providers/joke.provider');
 
 const KEY_PREFIX = 'ESYR_';
 
-// Get the directory where the CLI tool is being run
+// Get the directory where the CLI tool is being run (this will save at the config level not)
 const getCurrentDirectory = () => process.cwd();
+const secureUserPath = '~/esyr-cli-secrets'
 
-async function setEnvVar(key, value) {
+async function setEnvVar(key, value, secureUserPref = false) {
   try {
-    key=KEY_PREFIX+key;
-    const envPath = path.join(getCurrentDirectory(), '.env');
-    
+    key = KEY_PREFIX + key;
+    const path = secureUserPref ? secureUserPath : getCurrentDirectory();
+    const envPath = path.join(path, '.env');
+    if (secureUserPref) {
+      console.warn('Saving preference securely...')
+    }
+
     // Check if .env already exists
     let existingEnvVars = {};
     if (fs.existsSync(envPath)) {
@@ -36,9 +41,13 @@ async function setEnvVar(key, value) {
       flag: 'w'
     });
 
+    if (secureUserPref) {
+      console.warn('Preference securely stored!')
+    } else {
     // Add .env to .gitignore if it exists
     await ensureGitignore();
-    
+    }
+
     return true;
   } catch (error) {
     console.error('Error storing Env var:', error.message);
@@ -54,8 +63,9 @@ async function setEnvVar(key, value) {
 async function getEnvVar(key) {
   try {
     // Load .env file
+    dotenv.config({path: secureUserPath});
     dotenv.config();
-    key=KEY_PREFIX+key;
+    key = KEY_PREFIX + key;
     return process.env[key];
   } catch (error) {
     console.error(`Error retrieving Env var '${key}':`, error.message);
@@ -69,6 +79,7 @@ async function getEnvVar(key) {
 async function getEnv() {
   try {
     // Load .env file
+    dotenv.config({path: secureUserPath});
     dotenv.config();
     const keys = Object.keys(process.env).filter(key => key.startsWith(KEY_PREFIX));
     return keys.reduce((acc, key) => {
@@ -86,7 +97,7 @@ async function getEnv() {
  */
 async function ensureGitignore() {
   const gitignorePath = path.join(getCurrentDirectory(), '.gitignore');
-  
+
   try {
     let gitignoreContent = '';
     if (fs.existsSync(gitignorePath)) {
@@ -110,12 +121,19 @@ async function ensureGitignore() {
  */
 async function resetEnv() {
   try {
-    // Load .env file
+    // Load .env files
+    dotenv.config({path: secureUserPath});
     dotenv.config();
 
     const envPath = path.join(getCurrentDirectory(), '.env');
     // Write the file with restricted permissions
     await fs.promises.writeFile(envPath, '', {
+      mode: 0o600, // Read/write for owner only
+      flag: 'w'
+    });
+    const secureEnvPath = path.join(secureUserPath, '.env');
+    // Write the file with restricted permissions
+    await fs.promises.writeFile(secureEnvPath, '', {
       mode: 0o600, // Read/write for owner only
       flag: 'w'
     });

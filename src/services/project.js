@@ -16,118 +16,145 @@ const { reactComponentFactory } = require('./_templates/esyr/src/components');
 const { prettierFactory } = require('./_templates/esyr/prettier');
 const { postcssFactory } = require('./_templates/esyr/postcss');
 const { getCompletionMsg } = require('../providers/joke.provider');
+const { findNearestProject } = require('../utils/project.util');
+const { PrefProvider } = require('../providers/pref.provider');
+const { ProjectProvider } = require('../providers/project.provider');
 
 const addProjectCmds = ['proj', 'project'];
 
 async function addProject() {
-  const { projectName, useTypeScript, useSass, useFontAwesome } = await prompt([
-    {
-      type: 'input',
-      name: 'projectName',
-      message: 'What is the name of your project?',
-      default: 'esy-react-app',
-    },
-    {
-      type: 'confirm',
-      name: 'useTypeScript',
-      message: 'Use Typescript?',
-    },
-    {
-      type: 'confirm',
-      name: 'useSass',
-      message: 'Use SASS (.scss files)?',
-    },
-    {
-      type: 'confirm',
-      name: 'useFontAwesome',
-      message: 'Use Font Awesome?',
-    },
-  ]);
 
-  // Create project directory
-  const projectPath = join(process.cwd(), projectName);
-  await ensureDir(projectPath);
+  const nearestPublicPath = findNearestProject('', false);
+  const packageJson = new ProjectProvider(nearestPublicPath);
+  if (nearestPublicPath) {
+    await packageJson.load()
+    const projName = packageJson.get('name');
+    const { nestProject } = await prompt([
+      {
+        type: 'confirm',
+        name: 'nestProject',
+        message: `Active project found ('${projName}'), would you like to nest a sub-project?`,
+      }
+    ])
 
-  console.log(`\n\nCreating a new React project '${projectName}'`);
-
-  packageJsonData.name = projectName;
-
-  if (useTypeScript) {
-    packageJsonData.devDependencies['@types/react'] = '^18.3.4';
-    packageJsonData.devDependencies['@types/react-dom'] = '^18.3.0';
-    packageJsonData.dependencies['typescript'] = '^5.5.4';
-
-    // Create tsconfig.json
-    await writeJson(join(projectPath, 'tsconfig.json'), tsConfigJsonData, { spaces: 2 });
+    if (!nestProject) {
+      console.log(`\n\n\nProject creation cancelled.\n\n\n`);
+      return;
+    }
   }
 
-  // Add SASS dependencies
-  if (useSass) {
-    packageJsonData.devDependencies['sass'] = '^1.78.0';
-    packageJsonData.dependencies['esbuild-sass-plugin'] = '^3.3.1';
-  }
+    const resolvedPath = await PrefProvider.tryAskPath('sub project', 'packages');
+    const groupPath = findNearestProject(resolvedPath);
+    
 
-  // Add Font Awesome dependencies
-  if (useFontAwesome) {
-    packageJsonData.dependencies['@fortawesome/fontawesome-svg-core'] = '^6.6.0';
-    packageJsonData.dependencies['@fortawesome/free-brands-svg-icons'] = '^6.6.0';
-    packageJsonData.dependencies['@fortawesome/free-regular-svg-icons'] = '^6.6.0';
-    packageJsonData.dependencies['@fortawesome/free-solid-svg-icons'] = '^6.6.0';
-    packageJsonData.dependencies['@fortawesome/react-fontawesome'] = '^0.2.2';
-  }
+    const { projectName, useTypeScript, useSass, useFontAwesome } = await prompt([
+      {
+        type: 'input',
+        name: 'projectName',
+        message: 'What is the name of your project?',
+        default: 'esy-react-app',
+      },
+      {
+        type: 'confirm',
+        name: 'useTypeScript',
+        message: 'Use Typescript?',
+      },
+      {
+        type: 'confirm',
+        name: 'useSass',
+        message: 'Use SASS (.scss files)?',
+      },
+      {
+        type: 'confirm',
+        name: 'useFontAwesome',
+        message: 'Use Font Awesome?',
+      },
+    ]);
 
-  // Create src directory
-  const srcPath = join(projectPath, 'src');
-  await ensureDir(srcPath);
+    // Create project directory
+    const projectPath = join(groupPath, projectName);
+    await ensureDir(projectPath);
 
-  // Create public directory
-  const publicPath = join(projectPath, 'public');
-  await ensureDir(publicPath);
+    console.log(`\n\nCreating a new React project '${projectName}'`);
 
-  // Create scripts directory
-  const scriptsPath = join(projectPath, 'scripts');
-  await ensureDir(scriptsPath);
+    packageJsonData.name = projectName;
 
-  // Create pages directory
-  const pagesPath = join(srcPath, 'pages');
-  await ensureDir(pagesPath);
+    if (useTypeScript) {
+      packageJsonData.devDependencies['@types/react'] = '^18.3.4';
+      packageJsonData.devDependencies['@types/react-dom'] = '^18.3.0';
+      packageJsonData.dependencies['typescript'] = '^5.5.4';
 
-  // Create components directory
-  const componentsPath = join(srcPath, 'components');
-  await ensureDir(componentsPath);
+      // Create tsconfig.json
+      await writeJson(join(projectPath, 'tsconfig.json'), tsConfigJsonData, { spaces: 2 });
+    }
 
-  const initialPageName = 'MainPage';
-  await ensureDir(`${pagesPath}/${initialPageName}`);
+    // Add SASS dependencies
+    if (useSass) {
+      packageJsonData.devDependencies['sass'] = '^1.78.0';
+      packageJsonData.dependencies['esbuild-sass-plugin'] = '^3.3.1';
+    }
 
-  // Write all the files
-  await Promise.all([
-    writeJson(join(projectPath, 'package.json'), packageJsonData, { spaces: 2 }),
+    // Add Font Awesome dependencies
+    if (useFontAwesome) {
+      packageJsonData.dependencies['@fortawesome/fontawesome-svg-core'] = '^6.6.0';
+      packageJsonData.dependencies['@fortawesome/free-brands-svg-icons'] = '^6.6.0';
+      packageJsonData.dependencies['@fortawesome/free-regular-svg-icons'] = '^6.6.0';
+      packageJsonData.dependencies['@fortawesome/free-solid-svg-icons'] = '^6.6.0';
+      packageJsonData.dependencies['@fortawesome/react-fontawesome'] = '^0.2.2';
+    }
 
-    // Create scripts/common.js
-    writeFile(join(scriptsPath, 'common.js'), commonScriptContent({useSass}).trim()),
+    // Create src directory
+    const srcPath = join(projectPath, 'src');
+    await ensureDir(srcPath);
 
-    // Create scripts/_start.js
-    writeFile(join(scriptsPath, '_start.js'), startScriptContent.trim()),
+    // Create public directory
+    const publicPath = join(projectPath, 'public');
+    await ensureDir(publicPath);
 
-    // Create scripts/_build.js
-    writeFile(join(scriptsPath, '_build.js'), buildScriptContent.trim()),
+    // Create scripts directory
+    const scriptsPath = join(projectPath, 'scripts');
+    await ensureDir(scriptsPath);
 
-    // Create index.tsx
-    writeFile(join(srcPath, 'index.tsx'), indexComponentContent({ projectName }).trim()),
+    // Create pages directory
+    const pagesPath = join(srcPath, 'pages');
+    await ensureDir(pagesPath);
 
-    // Create App.tsx
-    writeFile(join(srcPath, 'App.tsx'), appComponentContent({ projectName, useTypeScript, pageName: initialPageName }).trim()),
+    // Create components directory
+    const componentsPath = join(srcPath, 'components');
+    await ensureDir(componentsPath);
 
-    // Create public/index.html
-    writeFile(join(publicPath, 'index.html'), indexHtmlContent({ projectName }).trim()),
+    const initialPageName = 'MainPage';
+    await ensureDir(`${pagesPath}/${initialPageName}`);
 
-    // Create src/pages/MainPage.tsx (Sample Page)
-    reactPageFactory({
-      useTypeScript,
-      useSass,
-      pageName: initialPageName,
-      pagePath: `${pagesPath}/${initialPageName}`,
-      contentOverride: `return (<div className='py-5 grid gap-5'>
+    // Write all the files
+    await Promise.all([
+      writeJson(join(projectPath, 'package.json'), packageJsonData, { spaces: 2 }),
+
+      // Create scripts/common.js
+      writeFile(join(scriptsPath, 'common.js'), commonScriptContent({ useSass }).trim()),
+
+      // Create scripts/_start.js
+      writeFile(join(scriptsPath, '_start.js'), startScriptContent.trim()),
+
+      // Create scripts/_build.js
+      writeFile(join(scriptsPath, '_build.js'), buildScriptContent.trim()),
+
+      // Create index.tsx
+      writeFile(join(srcPath, 'index.tsx'), indexComponentContent({ projectName }).trim()),
+
+      // Create App.tsx
+      writeFile(join(srcPath, 'App.tsx'), appComponentContent({ projectName, useTypeScript, pageName: initialPageName }).trim()),
+
+      // Create public/index.html
+      writeFile(join(publicPath, 'index.html'), indexHtmlContent({ projectName }).trim()),
+
+      // Create src/pages/MainPage.tsx (Sample Page)
+      reactPageFactory({
+        useTypeScript,
+        useSass,
+        pageName: initialPageName,
+        pagePath: `${pagesPath}/${initialPageName}`,
+        contentOverride: `return (<div className='py-5 grid gap-5'>
           <div className='px-5'>
             <h1 className='text-2xl font-black'>Welcome to ${projectName}</h1>
             <p>Scaffold out some web components using the esy-react cli!</p>
@@ -148,38 +175,38 @@ async function addProject() {
             </ul>
           </div>
         </div>)`,
-    }),
+      }),
 
-    // Create src/components/HelloComponent.tsx (Sample Page)
-    reactComponentFactory({
-      useTypeScript,
-      useSass,
-      componentName: 'HelloComponent',
-      componentPath: `${componentsPath}/HelloComponent`,
-      contentOverride: `return (<div className='px-5 font-black'>
+      // Create src/components/HelloComponent.tsx (Sample Page)
+      reactComponentFactory({
+        useTypeScript,
+        useSass,
+        componentName: 'HelloComponent',
+        componentPath: `${componentsPath}/HelloComponent`,
+        contentOverride: `return (<div className='px-5 font-black'>
             <p>Hello Component!</p>
           </div>)`,
-    }),
-    // Add Tailwind CSS
-    tailwindFactory({ projectPath, projectName }),
-    
-    // Add PostCSS
-    postcssFactory({ projectPath }),
+      }),
+      // Add Tailwind CSS
+      tailwindFactory({ projectPath, projectName }),
 
-    // Add Prettier
-    prettierFactory({projectPath}),
+      // Add PostCSS
+      postcssFactory({ projectPath }),
 
-    // Add .gitignore
-    writeFile(join(projectPath, '.gitignore'), `dist
+      // Add Prettier
+      prettierFactory({ projectPath }),
+
+      // Add .gitignore
+      writeFile(join(projectPath, '.gitignore'), `dist
 node_modules/**/*
 dist/*.(js|css|json|map|html)
 .DS_STORE`),
-  ]);
+    ]);
 
-  const completedMessage = getCompletionMsg(projectName);
-  console.log(`\n\n${completedMessage}\n`);
-  console.log('\n\nInstalling dependencies...\n\n');
-  subprocess.execSync(`cd ${projectName} && npm install && npm run format`);
+    const completedMessage = getCompletionMsg(projectName);
+    console.log(`\n\n${completedMessage}\n`);
+    console.log('\n\nInstalling dependencies...\n\n');
+    subprocess.execSync(`cd ${projectName} && npm install && npm run format`);
 }
 
 module.exports = { addProject, addProjectCmds };

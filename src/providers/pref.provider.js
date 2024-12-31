@@ -2,7 +2,7 @@ const { prompt } = require("inquirer");
 const { setEnvVar, getEnvVar } = require("../utils/env.util");
 
 async function tryAskPath(type, defaultPath = '') {
-    const key = `DEFAULT_${type.toUpperCase()}_PATH`;
+    const key = `DEFAULT_${type.toUpperCase().replace('\s', '_')}_PATH`;
     // Prompt user if they want to give a description to claude
     let resolvedPath = await getEnvVar(key);
     if (!resolvedPath) {
@@ -10,7 +10,7 @@ async function tryAskPath(type, defaultPath = '') {
             {
                 type: 'input',
                 name: 'providedPath',
-                message: `\nWhere should a '${type}' be created?\n`,
+                message: `\nWhere should a '${type}' be created? (user preference)\n`,
                 default: (defaultPath || './src/' + type + 's'),
             },
         ]);

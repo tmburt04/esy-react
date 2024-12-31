@@ -86,6 +86,11 @@ To clear out settings and any api keys set, run `esyr reset`.
 | `esyr reset` | `esyr rs` | Removes the local env file that has API keys and any user preferences. | - |
 
 ## Release Notes
+### **v2.2**
+- New and improved code generation across ALL commands!
+- Optional ability to create sub-projects with `eysr project` command.
+- API keys can now be re-used across projects!
+
 ### **v2.1**
 - Fixed bug with `esyr proj` command not setting the project root properly.
 - Service workers can now be generated with the `esyr sw` command.
@@ -103,6 +108,8 @@ To clear out settings and any api keys set, run `esyr reset`.
 ### **Early Access/v1**
 - Scaffold a new React project with `esyr project` and create various components.
 
+## Feature Roadmap
+- Local code generation (making code generation FREE!)
 
 ## Contributing
 We welcome contributions from the community! If you find any issues or have suggestions for improvements, please feel free to open a GitHub issue or submit a pull request.

@@ -1,8 +1,8 @@
 const { join } = require('path');
-const { findNearestProject, projectHasBrowserExt } = require('./_common');
 const { existsSync, readJsonSync, readdir, ensureDir, writeJson, writeFile } = require('fs-extra');
 const { manifestJsonData } = require('./_templates/esyr/public/manifest.json');
 const { extIndexHtmlContent } = require('./_templates/esyr/public/extIndex.html');
+const { findNearestProject, projectHasBrowserExt } = require('../utils/project.util');
 
 const initBrowserExtCmds = ['ext', 'browser-ext'];
 

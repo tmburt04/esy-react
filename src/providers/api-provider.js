@@ -82,7 +82,7 @@ async function promptForApiKey(vendor) {
 
   // Store the new API key
   vendor = vendor.toUpperCase();
-  await setEnvVar(`${vendor}_API_KEY`, apiKey);
+  await setEnvVar(`${vendor}_API_KEY`, apiKey, true);
   return apiKey;
 }
 

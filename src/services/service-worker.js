@@ -1,6 +1,6 @@
 const { join } = require('path');
 const { prompt } = require('inquirer');
-const { findNearestProject, projectHasTypeScript } = require('./_common');
+const { findNearestProject, projectHasTypeScript } = require('../utils/project.util');
 const { ensureDir, writeFile } = require('fs-extra');
 const { PrefProvider } = require('../providers/pref.provider');
 const { tryAskLLM } = require('../providers/llm.provider');

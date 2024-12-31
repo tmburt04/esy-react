@@ -1,5 +1,5 @@
 const { prompt } = require('inquirer');
-const { findNearestProject, projectHasSass, projectHasTypeScript } = require('./_common');
+const { findNearestProject, projectHasSass, projectHasTypeScript } = require('../utils/project.util');
 const { reactComponentFactory } = require('./_templates/esyr/src/components');
 const { ensureDir, exists } = require('fs-extra');
 const { PrefProvider } = require('../providers/pref.provider');
