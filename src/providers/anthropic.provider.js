@@ -9,7 +9,7 @@ const ClaudeModel = {
     vendor: 'anthropic',
     value: 'claude-3-5-sonnet-20241022',
     short: 'Claude Sonnet',
-    name: 'Claude 3.5 Sonnet',
+    name: 'Claude 3.5 Sonnet (API)',
 }
 
 /**

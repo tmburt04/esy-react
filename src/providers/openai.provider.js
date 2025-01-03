@@ -89,7 +89,7 @@ const Gpt4oMiniModel = {
   vendor: 'openai',
   value: 'gpt-4o-mini',
   short: 'GPT-4o mini',
-  name: 'OpenAI GPT-4o mini'
+  name: 'OpenAI GPT-4o mini (API)'
 }
 
 /**
@@ -101,7 +101,7 @@ const O1MiniModel = {
     vendor: 'openai',
     value: 'o1-mini',
     short: 'OpenAI o1 mini',
-    name: 'OpenAI o1 mini',
+    name: 'OpenAI o1 mini (API)',
 }
 
 module.exports = {
