@@ -3,7 +3,9 @@ const { ProgressUtil } = require("../utils/progress.util");
 const { ApiProvider } = require("./api-provider");
 const { getRandomWaitingJoke } = require("./joke.provider");
 const { SW_SYSTEM_PROMPT } = require("../system-prompts/service-worker");
-const { FC_SYSTEM_PROMPT } = require("../system-prompts/react-fc");
+const { reactSysPromptFactory } = require("../system-prompts/react-fc-v2");
+const { ProjectProvider } = require("./project.provider");
+const { findNearestProject } = require("../utils/project.util");
 
 /**
  * 
@@ -19,6 +21,9 @@ async function askOpenAi(prompt, sysPromptType, model) {
     return;
   }
   let sysPrompt;
+  const nearestPublicPath = findNearestProject('', false);
+  const packageJson = new ProjectProvider(nearestPublicPath);
+  await packageJson.load()
   switch (sysPromptType) {
     case 'sw':
     case 'worker':
@@ -30,7 +35,13 @@ async function askOpenAi(prompt, sysPromptType, model) {
     case 'functional':
     case 'functional-component':
       default:
-      sysPrompt = FC_SYSTEM_PROMPT;
+        const depsObj = packageJson.get('dependencies');
+        const depsList = Object.entries(depsObj).map(([k, v]) => k)
+        const hasTs = depsList?.length && depsList.includes('typescript')
+        sysPrompt = reactSysPromptFactory({
+            dependencies: depsList,
+            typescript: hasTs
+        });
       break;
   }
 

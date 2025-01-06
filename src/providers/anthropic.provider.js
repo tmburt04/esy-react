@@ -1,8 +1,10 @@
-const { FC_SYSTEM_PROMPT } = require("../system-prompts/react-fc");
+const { reactSysPromptFactory } = require("../system-prompts/react-fc-v2");
 const { SW_SYSTEM_PROMPT } = require("../system-prompts/service-worker");
 const { ProgressUtil } = require("../utils/progress.util");
 const { ApiProvider } = require("./api-provider");
+const { ProjectProvider } = require("./project.provider");
 const { getRandomWaitingJoke } = require("./joke.provider");
+const { findNearestProject } = require("../utils/project.util");
 
 
 const ClaudeModel = {
@@ -29,26 +31,36 @@ async function askAnthropic(prompt, sysPromptType, model) {
     }
 
     let sysPrompt;
+    const nearestPublicPath = findNearestProject('', false);
+    const packageJson = new ProjectProvider(nearestPublicPath);
+    await packageJson.load()
     switch (sysPromptType) {
-      case 'sw':
-      case 'worker':
-      case 'service-worker':
-        sysPrompt = SW_SYSTEM_PROMPT;
-        break;
-      case 'fc':
-      case 'function':
-      case 'functional':
-      case 'functional-component':
+        case 'sw':
+        case 'worker':
+        case 'service-worker':
+            sysPrompt = SW_SYSTEM_PROMPT;
+            break;
+        case 'fc':
+        case 'function':
+        case 'functional':
+        case 'functional-component':
         default:
-        sysPrompt = FC_SYSTEM_PROMPT;
-        break;
+            const depsObj = packageJson.get('dependencies');
+            const depsList = Object.entries(depsObj).map(([k, v]) => k)
+            const hasTs = depsList?.length && depsList.includes('typescript')
+            sysPrompt = reactSysPromptFactory({
+                dependencies: depsList,
+                typescript: hasTs
+            });
+            console.warn(depsList.join(', '))
+            break;
     }
 
     console.log('\n');
     const progress = new ProgressUtil();
     try {
-      const loadingJoke = getRandomWaitingJoke(model.vendor);
-      progress.start(loadingJoke);
+        const loadingJoke = getRandomWaitingJoke(model.vendor);
+        progress.start(loadingJoke);
         const response = await ApiProvider.fetchWithExpBackoff('https://api.anthropic.com/v1/messages', {
             method: 'POST',
             headers: {
@@ -85,7 +97,7 @@ async function askAnthropic(prompt, sysPromptType, model) {
     }
 }
 
-module.exports = { 
+module.exports = {
     ClaudeModel,
     askClaudeSonnet: (prompt, sysPromptType) => askAnthropic(prompt, sysPromptType, ClaudeModel)
- };
+};

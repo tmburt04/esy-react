@@ -36,7 +36,7 @@ async function addComponent() {
         {
           type: 'confirm',
           name: 'overwriteExisting',
-          message: `\n\n\n'${componentName}' already exists! Do you want to overwrite it?\n`, 
+          message: `\n\n\n'${componentName}' already exists! Do you want to overwrite it?\n`,
           default: false,
         }
       ]);
@@ -45,20 +45,21 @@ async function addComponent() {
         console.log(`\n\n\n${abortMsg}\n\n\n`);
         return;
       }
-    } else {
-      // Only create the directory if it doesn't exist
-      await ensureDir(componentPath);
     }
 
     // Asks the user if they want to use Claude to generate the content
-    const codeOverride = await tryAskLLM();
+    const fileOverwrite = await tryAskLLM('fc', componentName);
 
+    // Create the directory if it doesn't exist
+    await ensureDir(componentPath);
+    
+    // Create component file
     await reactComponentFactory({
       componentName,
       componentPath,
       useSass,
       useTypeScript,
-      contentOverride: codeOverride,
+      fileOverwrite,
     });
     const completedMessage = getCompletionMsg(componentName);
     console.log(`\n\n\n${completedMessage}\n\n\n`);

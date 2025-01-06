@@ -1,21 +1,30 @@
 const fs = require('fs');
 const path = require('path');
 const dotenv = require('dotenv');
+const os = require('os');
 const { getRandomResetMsg } = require('../providers/joke.provider');
 
 const KEY_PREFIX = 'ESYR_';
 
-// Get the directory where the CLI tool is being run (this will save at the config level not)
-const getCurrentDirectory = () => process.cwd();
-const secureUserPath = '~/esyr-cli-secrets'
+// Get the dir where the user stores settings/prefs
+const getHomePath = (filename = '') => {
+  const fp = path.join(os.homedir(), '.esyr-cli');
+  // Create the path if it does not exist
+  if (!fs.existsSync(fp)) {
+    fs.mkdirSync(fp);
+  }
+  return path.join(fp, filename)
+}
 
-async function setEnvVar(key, value, secureUserPref = false) {
+// Get the dir where the CLI tool is being run (this will not save at the config level)
+const getCurrentDirectory = (filename = '') => path.join(process.cwd(), filename);
+
+async function setEnvVar(key, value, homePref = false) {
   try {
     key = KEY_PREFIX + key;
-    const path = secureUserPref ? secureUserPath : getCurrentDirectory();
-    const envPath = path.join(path, '.env');
-    if (secureUserPref) {
-      console.warn('Saving preference securely...')
+    const envPath = homePref ? getHomePath('.env') : getCurrentDirectory('.env');
+    if (homePref) {
+      console.warn('Saving preference globally...')
     }
 
     // Check if .env already exists
@@ -41,11 +50,11 @@ async function setEnvVar(key, value, secureUserPref = false) {
       flag: 'w'
     });
 
-    if (secureUserPref) {
-      console.warn('Preference securely stored!')
+    if (homePref) {
+      console.warn('Global preference securely stored!')
     } else {
-    // Add .env to .gitignore if it exists
-    await ensureGitignore();
+      // Add .env to .gitignore if it exists
+      await ensureGitignore();
     }
 
     return true;
@@ -63,7 +72,7 @@ async function setEnvVar(key, value, secureUserPref = false) {
 async function getEnvVar(key) {
   try {
     // Load .env file
-    dotenv.config({path: secureUserPath});
+    dotenv.config({ path: getHomePath('.env') });
     dotenv.config();
     key = KEY_PREFIX + key;
     return process.env[key];
@@ -79,7 +88,7 @@ async function getEnvVar(key) {
 async function getEnv() {
   try {
     // Load .env file
-    dotenv.config({path: secureUserPath});
+    dotenv.config({ path: getHomePath('.env') });
     dotenv.config();
     const keys = Object.keys(process.env).filter(key => key.startsWith(KEY_PREFIX));
     return keys.reduce((acc, key) => {
@@ -121,17 +130,17 @@ async function ensureGitignore() {
  */
 async function resetEnv() {
   try {
+    const secureEnvPath = getHomePath('.env');
     // Load .env files
-    dotenv.config({path: secureUserPath});
+    dotenv.config({ path: secureEnvPath });
     dotenv.config();
 
-    const envPath = path.join(getCurrentDirectory(), '.env');
+    const envPath = getCurrentDirectory('.env');
     // Write the file with restricted permissions
     await fs.promises.writeFile(envPath, '', {
       mode: 0o600, // Read/write for owner only
       flag: 'w'
     });
-    const secureEnvPath = path.join(secureUserPath, '.env');
     // Write the file with restricted permissions
     await fs.promises.writeFile(secureEnvPath, '', {
       mode: 0o600, // Read/write for owner only

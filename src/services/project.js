@@ -154,7 +154,7 @@ async function addProject() {
         useSass,
         pageName: initialPageName,
         pagePath: `${pagesPath}/${initialPageName}`,
-        contentOverride: `return (<div className='py-5 grid gap-5'>
+        contentOverwrite: `return (<div className='py-5 grid gap-5'>
           <div className='px-5'>
             <h1 className='text-2xl font-black'>Welcome to ${projectName}</h1>
             <p>Scaffold out some web components using the esy-react cli!</p>
@@ -183,7 +183,7 @@ async function addProject() {
         useSass,
         componentName: 'HelloComponent',
         componentPath: `${componentsPath}/HelloComponent`,
-        contentOverride: `return (<div className='px-5 font-black'>
+        contentOverwrite: `return (<div className='px-5 font-black'>
             <p>Hello Component!</p>
           </div>)`,
       }),

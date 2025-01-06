@@ -29,14 +29,14 @@ async function addHook() {
   const useTypeScript = projectHasTypeScript();
 
     // Asks the user if they want to use Claude to generate the hook content
-    const codeOverride = await tryAskLLM();
+    const fileOverwrite = await tryAskLLM('hook', hookName);
   try {
     await ensureDir(hookPath);
 
     await reactHookFactory({
       hookName,
       hookPath,
-      contentOverride: codeOverride,
+      fileOverwrite,
       useTypeScript,
     });
     const completedMessage = getCompletionMsg(hookName);

@@ -6,6 +6,7 @@
 - Optional ability to create sub-projects with `eysr proj` command.
 - API Keys are now stored in the user's home directory in a separate .env file.
 - Refactored utility and common logic to be more uniform.
+- Fixed bug that caused directories to be pre-maturely created.
 
 ### 2.1.2
 - Fixed issue with `esyr context` command failing to scaffold.

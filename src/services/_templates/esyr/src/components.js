@@ -6,7 +6,7 @@ const { writeFile, ensureDir } = require('fs-extra');
  * @name reactComponentFactory
  * @description Builds a React component file (depending on the user's choice of TypeScript and SASS)
  */
-const reactComponentFactory = async ({ useTypeScript, useSass, componentName, componentPath, contentOverride }) => {
+const reactComponentFactory = async ({ useTypeScript, useSass, componentName, componentPath, fileOverwrite, contentOverwrite }) => {
   // Validate required arguments
   const requiredArgs = [useTypeScript, useSass, componentName, componentPath];
   if (requiredArgs.some((arg) => arg == undefined || arg == null)) {
@@ -18,6 +18,9 @@ const reactComponentFactory = async ({ useTypeScript, useSass, componentName, co
   const styleFileName = `${componentName}.${useSass ? 'scss' : 'css'}`;
   const componentFileName = `${componentName}.${useTypeScript ? 'tsx' : 'jsx'}`;
 
+  if (fileOverwrite) {
+    await writeFile(join(pagePath, componentFileName), fileOverwrite); // Create component file
+  } else {
   let reactPropTypeDef = '',
     reactPropTypeUse = '';
 
@@ -33,7 +36,7 @@ const reactComponentFactory = async ({ useTypeScript, useSass, componentName, co
 import React from 'react';
 import './${styleFileName}';${reactPropTypeDef}
 export const ${componentName} = (props${reactPropTypeUse}) => {
-      ${contentOverride?.length > 0 ? contentOverride : `return (
+      ${contentOverwrite?.length > 0 ? contentOverwrite : `return (
     <div className="${kebabCaseName}-container">
     <p>${componentName} Component body</p>
     </div>
@@ -50,6 +53,7 @@ export default ${componentName};
     writeFile(join(componentPath, componentFileName), componentFileContent), // Create component file
     writeFile(join(componentPath, styleFileName), componentStyleFileContent), // Create style file
   ]);
+};
 };
 
 module.exports = { reactComponentFactory };
