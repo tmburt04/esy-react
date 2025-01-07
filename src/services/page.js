@@ -53,7 +53,7 @@ async function addPage() {
     }
 
     // Asks the user if they want to use Claude to generate the page content
-    const fileOverwrite = await tryAskLLM('fc', pageName);
+    const fileOverwrite = await tryAskLLM('page', pageName);
 
     // Create the directory if it doesn't exist
     await ensureDir(pagePath);

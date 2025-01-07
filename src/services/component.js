@@ -48,7 +48,7 @@ async function addComponent() {
     }
 
     // Asks the user if they want to use Claude to generate the content
-    const fileOverwrite = await tryAskLLM('fc', componentName);
+    const fileOverwrite = await tryAskLLM('component', componentName);
 
     // Create the directory if it doesn't exist
     await ensureDir(componentPath);

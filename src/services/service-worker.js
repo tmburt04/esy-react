@@ -34,7 +34,7 @@ async function addServiceWorker() {
   console.log(`Creating a new Service Worker in '${resolvedPath}'`);
 
     // Asks the user if they want to use Claude to generate the content
-    const codeOverride = await tryAskLLM('sw');
+    const codeOverride = await tryAskLLM('service worker');
 
   const serviceWorkerFileContent = codeOverride || `
     // Service Worker content

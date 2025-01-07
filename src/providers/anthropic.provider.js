@@ -52,7 +52,6 @@ async function askAnthropic(prompt, sysPromptType, model) {
                 dependencies: depsList,
                 typescript: hasTs
             });
-            console.warn(depsList.join(', '))
             break;
     }
 
