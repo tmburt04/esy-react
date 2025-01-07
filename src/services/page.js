@@ -1,5 +1,5 @@
 const { prompt } = require('inquirer');
-const { projectHasTypeScript, projectHasSass, findNearestProject } = require('./_common');
+const { projectHasTypeScript, projectHasSass, findNearestProject } = require('../utils/project.util');
 const { reactPageFactory } = require('./_templates/esyr/src/pages');
 const { ensureDir, exists } = require('fs-extra');
 const { PrefProvider } = require('../providers/pref.provider');
@@ -50,20 +50,20 @@ async function addPage() {
         console.log(`\n\n\n${abortMsg}\n\n\n`);
         return;
       }
-    } else {
-      // Only create the directory if it doesn't exist
-      await ensureDir(pagePath);
     }
 
     // Asks the user if they want to use Claude to generate the page content
-    const codeOverride = await tryAskLLM();
+    const fileOverwrite = await tryAskLLM('page', pageName);
+
+    // Create the directory if it doesn't exist
+    await ensureDir(pagePath);
 
     await reactPageFactory({
       pageName,
       pagePath,
       useSass,
       useTypeScript,
-      contentOverride: codeOverride
+      fileOverwrite
     });
     const completedMessage = getCompletionMsg(pageName);
     console.log(`\n\n\n${completedMessage}\n\n\n`);

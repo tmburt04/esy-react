@@ -35,6 +35,12 @@ class ProgressUtil {
         // Show the cursor again
         process.stdout.write('\n\x1B[?25h');
     }
+    
+    updateMessage(message) {
+        readline.clearLine(process.stdout, 0);
+        readline.cursorTo(process.stdout, 0);
+        process.stdout.write('\n' + message + '\n');
+     }
 }
 
 module.exports = { ProgressUtil };

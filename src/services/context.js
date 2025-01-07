@@ -1,5 +1,5 @@
 const { prompt } = require('inquirer');
-const { findNearestProject, projectHasTypeScript } = require('./_common');
+const { findNearestProject, projectHasTypeScript } = require('../utils/project.util');
 const { exists, ensureDir } = require('fs-extra');
 const { reactContextFactory } = require('./_templates/esyr/src/contexts');
 const { getCompletionMsg } = require('../providers/joke.provider');

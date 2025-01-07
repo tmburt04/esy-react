@@ -1,5 +1,13 @@
 # ESY React Changelog
 
+### 2.2.0
+- All code generation commands now reference the 'package.json', all code generation NOW uses packages already installed in your project!
+- All code generation now generates an entire file instead of injecting output in a template.
+- Optional ability to create sub-projects with `eysr proj` command.
+- API Keys are now stored in the user's home directory in a separate .env file.
+- Refactored utility and common logic to be more uniform.
+- Fixed bug that caused directories to be pre-maturely created.
+
 ### 2.1.2
 - Fixed issue with `esyr context` command failing to scaffold.
 - The command `esyr context` now allows you to overwrite files.

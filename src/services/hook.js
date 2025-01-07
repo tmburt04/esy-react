@@ -1,5 +1,5 @@
 const { prompt } = require('inquirer');
-const { findNearestProject, projectHasTypeScript } = require('./_common');
+const { findNearestProject, projectHasTypeScript } = require('../utils/project.util');
 const { exists, ensureDir } = require('fs-extra');
 const { reactHookFactory } = require('./_templates/esyr/src/hooks');
 const {PrefProvider} = require('../providers/pref.provider');
@@ -29,14 +29,14 @@ async function addHook() {
   const useTypeScript = projectHasTypeScript();
 
     // Asks the user if they want to use Claude to generate the hook content
-    const codeOverride = await tryAskLLM();
+    const fileOverwrite = await tryAskLLM('hook', hookName);
   try {
     await ensureDir(hookPath);
 
     await reactHookFactory({
       hookName,
       hookPath,
-      contentOverride: codeOverride,
+      fileOverwrite,
       useTypeScript,
     });
     const completedMessage = getCompletionMsg(hookName);

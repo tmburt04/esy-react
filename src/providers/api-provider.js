@@ -43,6 +43,9 @@ async function fetchWithExpBackoff(url, options = {}, {
   let lastError = null;
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
+      if (attempt > 0) {
+        console.warn(`\n\nRequest Failed. Attempting retry ${attempt}...\n`)
+      }
       const response = await fetchWithTimeout(url, options);
       
       // Optional: You can add custom response handling here
@@ -82,7 +85,7 @@ async function promptForApiKey(vendor) {
 
   // Store the new API key
   vendor = vendor.toUpperCase();
-  await setEnvVar(`${vendor}_API_KEY`, apiKey);
+  await setEnvVar(`${vendor}_API_KEY`, apiKey, true);
   return apiKey;
 }
 
