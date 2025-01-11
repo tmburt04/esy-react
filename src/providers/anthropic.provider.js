@@ -17,8 +17,8 @@ const ClaudeModel = {
 /**
  * 
  * @param prompt The prompt to send to the model 
- * @param sysPromptType The type of system prompt to use (e.g. 'component' or 'worker')
- *  @param modelId The model ID to use for the request
+ * @param sysPromptType The type of system prompt to use (e.g. 'component' or 'service worker' or 'hook')
+ *  @param model The model object to use for the request
  * 
  * @returns 
  */

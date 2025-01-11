@@ -86,6 +86,9 @@ To clear out settings and any api keys set, run `esyr reset`.
 | `esyr reset` | `esyr rs` | Removes the local env file that has API keys and any user preferences. | - |
 
 ## Release Notes
+### **v3.0**
+- FREE Code Generation (local llama)
+
 ### **v2.2**
 - New and improved code generation across ALL supported commands!
 - Optional ability to create sub-projects with `eysr project` command.
