@@ -1,5 +1,8 @@
 # ESY React Changelog
 
+### 3.0.0
+- Added Local Llama inference (FREE code generation!)
+
 ### 2.2.0
 - All code generation commands now reference the 'package.json', all code generation NOW uses packages already installed in your project!
 - All code generation now generates an entire file instead of injecting output in a template.

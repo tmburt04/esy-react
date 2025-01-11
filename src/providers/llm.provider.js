@@ -1,9 +1,11 @@
 const { askClaudeSonnet, ClaudeModel } = require("./anthropic.provider");
+const { askLlama3b, LocalLlama3bModel } = require("./llama.provider");
 const { prompt } = require("inquirer");
 const { setEnvVar, getEnvVar } = require("../utils/env.util");
 const { askChatGpt4oMini, askOpenAiO1Mini, Gpt4oMiniModel, O1MiniModel } = require("./openai.provider");
 
 const FullModelList = [
+    LocalLlama3bModel,
     ClaudeModel,
     // O1MiniModel,
     Gpt4oMiniModel
@@ -41,7 +43,7 @@ async function tryAskLLM(fileType = 'component', fileName = '') {
                     type: 'list',
                     name: 'aiProviderPref',
                     message: `What AI model would you like to use?\n`,
-                    default: dftModelId || ClaudeModel.value,
+                    default: dftModelId || FullModelList[0].value,
                     choices: FullModelList,
                 }
             ]);
@@ -73,7 +75,7 @@ async function tryAskLLM(fileType = 'component', fileName = '') {
             dftModelId = aiProviderPref;
             await setEnvVar('DEFAULT_MODEL_ID', dftModelId, true);
         }
-        
+
         const dftModel = FullModelList.find(m => m.value == dftModelId);
         if (!dftModel) {
             throw new Error(`Model with ID '${dftModelId || ''}' not found`);
@@ -87,8 +89,10 @@ async function tryAskLLM(fileType = 'component', fileName = '') {
                     codeResult = await askOpenAiO1Mini(promptPrefix + userPrompt, fileType);
                     break;
                 case ClaudeModel.value:
-                default:
                     codeResult = await askClaudeSonnet(promptPrefix + userPrompt, fileType);
+                case LocalLlama3bModel.value:
+                default:
+                    codeResult = await askLlama3b(promptPrefix + userPrompt, fileType);
                     break;
             }
         } catch (error) {
@@ -97,7 +101,7 @@ async function tryAskLLM(fileType = 'component', fileName = '') {
         }
 
         return codeResult;
-    } else if (!userPrompt){
+    } else if (!userPrompt) {
         console.log('\n');
         return;
     }

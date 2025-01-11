@@ -10,8 +10,8 @@ const { findNearestProject } = require("../utils/project.util");
 /**
  * 
  * @param prompt The prompt to send to the model 
- * @param sysPromptType The type of system prompt to use (e.g. 'fc' or 'worker')
- * @param apiKey The API key to use for the request
+ * @param sysPromptType The type of system prompt to use (e.g. 'component' or 'service worker' or 'hook')
+ *  @param model The model object to use for the request
  * @returns 
  */
 async function askOpenAi(prompt, sysPromptType, model) {
