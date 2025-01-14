@@ -1,5 +1,13 @@
 # ESY React Changelog
 
+### 3.0.0
+- Added Local Llama inference (FREE code generation!)
+- Added support for OpenAI's o1-mini reasoning model.
+- Fixed UX bug with duplicate progress bar
+- Added a basic test script to iterate on the System Prompt
+- Refactored the build script to be more reusable
+- Included App Version in Welcome page
+
 ### 2.2.0
 - All code generation commands now reference the 'package.json', all code generation NOW uses packages already installed in your project!
 - All code generation now generates an entire file instead of injecting output in a template.

@@ -43,8 +43,10 @@ Once installed, you can start using `esy-react-cli` to create new React projects
 **Supported Models:**
 | Id | Model | Vendor | API Access |
 | ---| --- | --- | --- |
+| `llama-3.2-3b` | Llama 3.2 3b (Q8) | Meta Llama | (FREE/Local) |
 | `claude-3-sonnet-20240229` | Claude Sonnet (new) | Anthropic | https://www.anthropic.com/api |
-| `gpt-4o-mini` | GPT-4o mini | OpenAI | https://platform.openai.com/docs/models/gpt-4o |
+| `gpt-4o-mini` | GPT-4o mini | OpenAI | https://platform.openai.com/docs/models/gpt-4o-mini#gpt-4o-mini |
+| `o1-mini` | o1 mini | OpenAI | https://platform.openai.com/docs/models/o1-mini#o1 |
 
 ## NPM Registry Installation
 1. `npm i -g esy-react-cli`
@@ -86,6 +88,11 @@ To clear out settings and any api keys set, run `esyr reset`.
 | `esyr reset` | `esyr rs` | Removes the local env file that has API keys and any user preferences. | - |
 
 ## Release Notes
+### **v3.0**
+- FREE Code Generation (local llama)
+- Added OpenAI's o1-mini reasoning model as an option for code generation.
+- Improved Code Generation
+
 ### **v2.2**
 - New and improved code generation across ALL supported commands!
 - Optional ability to create sub-projects with `eysr project` command.
@@ -109,12 +116,12 @@ To clear out settings and any api keys set, run `esyr reset`.
 - Scaffold a new React project with `esyr project` and create various components.
 
 ## Feature Roadmap
-- Local code generation (making code generation FREE!)
+- More intelligent code generation that is tailored to the project.
 
 ## Contributing
 We welcome contributions from the community! If you find any issues or have suggestions for improvements, please feel free to open a GitHub issue or submit a pull request.
 
-If you excel at prompt engineering, please review my System Prompt! I'd love to hear your thoughts on how to improve it. [Claude System Prompt](https://github.com/tmburt04/esy-react/blob/main/src/providers/claude/claude.model.js)
+If you excel at prompt engineering, please review my System Prompt! I'd love to hear your thoughts on how to improve it. [System Prompt](https://github.com/tmburt04/esy-react/blob/main/src/system-prompts/react-fc-v2.js)
 
 ## Issues/Bugs
 If you encounter any issues or bugs while using `esy-react-cli`, please report them on the [GitHub Issues](https://github.com/tmburt04/esy-react/issues/new) page. Use the provided issue template to ensure that your bug report contains all the necessary information for us to investigate and address the problem.
