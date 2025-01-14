@@ -7,7 +7,7 @@ const { askChatGpt4oMini, askOpenAiO1Mini, Gpt4oMiniModel, O1MiniModel } = requi
 const FullModelList = [
     LocalLlama3bModel,
     ClaudeModel,
-    // O1MiniModel,
+    O1MiniModel,
     Gpt4oMiniModel
 ];
 
@@ -90,6 +90,7 @@ async function tryAskLLM(fileType = 'component', fileName = '') {
                     break;
                 case ClaudeModel.value:
                     codeResult = await askClaudeSonnet(promptPrefix + userPrompt, fileType);
+                    break;
                 case LocalLlama3bModel.value:
                 default:
                     codeResult = await askLlama3b(promptPrefix + userPrompt, fileType);

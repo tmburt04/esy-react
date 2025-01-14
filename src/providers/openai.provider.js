@@ -34,14 +34,14 @@ async function askOpenAi(prompt, sysPromptType, model) {
     case 'function':
     case 'functional':
     case 'functional-component':
-      default:
-        const depsObj = packageJson.get('dependencies');
-        const depsList = Object.entries(depsObj).map(([k, v]) => k)
-        const hasTs = depsList?.length && depsList.includes('typescript')
-        sysPrompt = reactSysPromptFactory({
-            dependencies: depsList,
-            typescript: hasTs
-        });
+    default:
+      const depsObj = packageJson.get('dependencies');
+      const depsList = Object.entries(depsObj).map(([k, v]) => k)
+      const hasTs = depsList?.length && depsList.includes('typescript')
+      sysPrompt = reactSysPromptFactory({
+        dependencies: depsList,
+        typescript: hasTs
+      });
       break;
   }
 
@@ -50,15 +50,23 @@ async function askOpenAi(prompt, sysPromptType, model) {
   try {
     const loadingJoke = getRandomWaitingJoke(model.vendor);
     progress.start(loadingJoke);
-    
-    const response = await ApiProvider.fetchWithExpBackoff('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + apiKey
-      },
-      body: JSON.stringify({
-        "model": model.value,
+
+    const reqBody = {
+      "model": model.value,
+      "messages": [
+        {
+          "role": model.hasSysPrompt ? "system" : 'user',
+          "content": sysPrompt
+        },
+        {
+          "role": "user",
+          "content": prompt
+        }
+      ]
+    }
+
+    if (model.hasSysPrompt) {
+      Object.assign(reqBody, {
         "response_format": {
           "type": "text"
         },
@@ -66,18 +74,17 @@ async function askOpenAi(prompt, sysPromptType, model) {
         "max_tokens": 2048,
         "top_p": 1,
         "frequency_penalty": 0,
-        "presence_penalty": 0,
-        "messages": [
-          {
-            "role": "system",
-            "content": sysPrompt
-          },
-          {
-            "role": "user",
-            "content": prompt
-          }
-        ]
+        "presence_penalty": 0
       })
+    }
+
+    const response = await ApiProvider.fetchWithExpBackoff('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + apiKey
+      },
+      body: JSON.stringify(reqBody)
     });
 
     const data = await response.json();
@@ -86,7 +93,7 @@ async function askOpenAi(prompt, sysPromptType, model) {
       throw new Error(`${model.vendor} API request failed: ${data.error?.message || response.statusText}`);
     }
     progress.stop();
-    
+
     const result = get(data, 'choices[0].message.content', '');
     return result;
   } catch (error) {
@@ -100,19 +107,15 @@ const Gpt4oMiniModel = {
   vendor: 'openai',
   value: 'gpt-4o-mini',
   short: 'GPT-4o mini',
-  name: 'OpenAI GPT-4o mini (API)'
+  name: 'OpenAI GPT-4o mini (API)',
 }
 
-/**
- * @todo figure out why this model is giving inconsistent results
- * Why am i getting a mixture of 403, 400, and 429 errors?
- * Nov-25-2024
- */
 const O1MiniModel = {
-    vendor: 'openai',
-    value: 'o1-mini',
-    short: 'OpenAI o1 mini',
-    name: 'OpenAI o1 mini (API)',
+  vendor: 'openai',
+  value: 'o1-mini',
+  short: 'OpenAI o1 mini',
+  name: 'OpenAI o1 mini (API)',
+  hasSysPrompt: false
 }
 
 module.exports = {

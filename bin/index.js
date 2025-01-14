@@ -13,12 +13,15 @@ const { initBrowserExtCmds, initBrowserExt, fetchContentScripts } = require('../
 const { resetEnv, getEnv } = require('../src/utils/env.util');
 const spacer = Array(3).fill('.....').join('');
 
+// Do not expose warnings to the user
+process.removeAllListeners('warning')
+
 const resetCmds = ['reset', 'rs'];
 
 const displayWelcome = async () => {
   const welcome = getRandomWelcome()
   const actionPrompt = getRandomActionPrompt()
-  const version = process.env.npm_package_version;
+  const version = process.env.APP_VERSION || process.env.npm_package_version;
   const llmList = [];
   const config = await getEnv()
   if (config.ANTHROPIC_API_KEY) {

@@ -14,17 +14,7 @@ class ProgressUtil {
         // Hide the cursor
         process.stdout.write('\x1B[?25l');
         
-        this.interval = setInterval(() => {
-            // Clear the current line
-            readline.clearLine(process.stdout, 0);
-            readline.cursorTo(process.stdout, 0);
-            
-            // Write the new frame
-            process.stdout.write(`${this.frames[this.currentFrame]} ${message}`);
-            
-            // Move to next frame
-            this.currentFrame = (this.currentFrame + 1) % this.frames.length;
-        }, 80);
+        this.updateMessage(message);
     }
 
     stop() {
@@ -37,9 +27,19 @@ class ProgressUtil {
     }
     
     updateMessage(message) {
-        readline.clearLine(process.stdout, 0);
-        readline.cursorTo(process.stdout, 0);
-        process.stdout.write('\n' + message + '\n');
+        clearInterval(this.interval);
+        
+        this.interval = setInterval(() => {
+            // Clear the current line
+            readline.clearLine(process.stdout, 0);
+            readline.cursorTo(process.stdout, 0);
+            
+            // Write the new frame
+            process.stdout.write(`${this.frames[this.currentFrame]} ${message}`);
+            
+            // Move to next frame
+            this.currentFrame = (this.currentFrame + 1) % this.frames.length;
+        }, 80);
      }
 }
 

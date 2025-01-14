@@ -4,12 +4,15 @@ const { ProgressUtil } = require("../utils/progress.util");
 const { ApiProvider } = require("./api-provider");
 const { ProjectProvider } = require("./project.provider");
 const { findNearestProject } = require("../utils/project.util");
+const path = require('path');
+const fs = require('fs');
+const os = require('os');
 
 const LocalLlama3bModel = {
     vendor: 'Meta',
-    value: 'llama-3.1-8b',
-    short: 'Llama 3.1 8b',
-    name: 'Llama 3.1 8b (Local/FREE)',
+    value: 'llama-3.2-3b',
+    short: 'Llama 3.2 3b',
+    name: 'Llama 3.2 3b (Local/FREE)',
     modelUri: "https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF/blob/main/Llama-3.2-3B-Instruct-Q8_0.gguf"
   }
 
@@ -60,7 +63,6 @@ async function askLlama(prompt, sysPromptType, model) {
         }
         const { getLlama, LlamaChatSession, resolveModelFile } = await import("node-llama-cpp");
 
-        const model = LocalLlamaHermes3bModel;
         const modelPath = await resolveModelFile(
             model.modelUri,
             cachePath
@@ -80,11 +82,12 @@ async function askLlama(prompt, sysPromptType, model) {
         // Create inference context and chat session
         const context = await modelInstance.createContext();
         const session = new LlamaChatSession({
-            systemPrompt: SYSTEM_PROMPT,
+            systemPrompt: sysPrompt,
             contextSequence: context.getSequence() // Maintains conversation history
         });
 
-        const response = await session.prompt(txt); // Generate model response
+        progress.updateMessage(`Prompting ${model.short}...`);
+        const response = await session.prompt(prompt); // Generate model response
 
         progress.stop();
         return response;
