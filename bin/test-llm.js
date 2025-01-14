@@ -6,6 +6,14 @@ const { askOpenAiO1Mini, O1MiniModel, Gpt4oMiniModel, askChatGpt4oMini } = requi
 const { reactPageFactory } = require("../src/services/_templates/esyr/src/pages");
 const { prompt } = require("inquirer");
 
+/**
+ * 
+* Dev testing file for AI provider selection and code generation.
+* Prompts user to select an AI model and generates credit card validation code.
+* FOR DEVELOPMENT/TESTING PURPOSES ONLY.
+*
+*/
+
 // Do not expose warnings to the user
 process.removeAllListeners('warning')
 
