@@ -1,5 +1,8 @@
 # ESY React Changelog
 
+### 3.0.1
+- Fixed bug with creating nested projects
+
 ### 3.0.0
 - Added Local Llama inference (FREE code generation!)
 - Added support for OpenAI's o1-mini reasoning model.
