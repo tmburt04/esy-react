@@ -19,7 +19,7 @@ const reactComponentFactory = async ({ useTypeScript, useSass, componentName, co
   const componentFileName = `${componentName}.${useTypeScript ? 'tsx' : 'jsx'}`;
 
   if (fileOverwrite) {
-    await writeFile(join(pagePath, componentFileName), fileOverwrite); // Create component file
+    await writeFile(join(componentPath, componentFileName), fileOverwrite); // Create component file
   } else {
   let reactPropTypeDef = '',
     reactPropTypeUse = '';
