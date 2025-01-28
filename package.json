@@ -1,6 +1,6 @@
 {
   "name": "esy-react-cli",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Transform your React development workflow with this lightning-fast CLI tool that empowers you to launch production-ready apps in seconds. Seamlessly scaffold modern React applications with zero configuration, powered by battle-tested templates and optional AI assistance. Perfect for developers who value clean architecture and rapid deployment without the bloat. Stop wrestling with setup—start building.",
   "main": "./index.js",
   "scripts": {
@@ -30,8 +30,6 @@
     "dotenv": "^16.4.5",
     "fs-extra": "^10.0.0",
     "inquirer": "^8.2.0",
-    "lodash": "^4.17.21",
-    "lodash-es": "^4.17.21",
     "node-llama-cpp": "^3.4.0"
   },
   "devDependencies": {
