@@ -1,7 +1,12 @@
 # ESY React Changelog
 
+### 3.0.2
+- Removed unneeded dependencies
+- Resolved issue with ctx creations
+
 ### 3.0.1
 - Fixed bug with creating nested projects
+- Enhanced Start script to be more resilient with errors
 
 ### 3.0.0
 - Added Local Llama inference (FREE code generation!)

@@ -7,7 +7,7 @@ const packageJsonData = {
   scripts: {
     build: 'node ./scripts/_build.js',
     start: 'node ./scripts/_start.js',
-    "build:styles": "postcss ./src/theme.css -o ./dist/theme.css",
+    "build:styles": "node ./scripts/_style.js",
     format: "prettier --write \"**/*.{js,jsx,ts,tsx,css,scss,json,py,rs}\""
   },
   keywords: [],

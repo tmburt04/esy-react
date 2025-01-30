@@ -1,4 +1,5 @@
-const { kebabCase } = require('lodash');
+const { kebabCase } = require("../../../../utils/common.util");
+
 
 /**
  * Builds a React pop up file

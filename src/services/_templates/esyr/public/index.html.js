@@ -1,4 +1,5 @@
-const { kebabCase, upperFirst } = require('lodash');
+const { kebabCase, upperFirst } = require("../../../../utils/common.util");
+
 
 const indexHtmlContent = ({ projectName }) => {
   const kebabName = kebabCase(projectName);
