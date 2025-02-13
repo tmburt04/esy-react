@@ -3,6 +3,8 @@
 ### 3.0.2
 - Removed unneeded dependencies
 - Resolved issue with ctx creations
+- Resolved issue with hook scaffolding and generations
+- Resolved issue with Content Script scaffolding
 
 ### 3.0.1
 - Fixed bug with creating nested projects
