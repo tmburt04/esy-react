@@ -84,11 +84,11 @@ try {
 // Notify user of error
 process.on('uncaughtException', (err) => {
   console.error('❌ Uncaught error:', err.message);
-  console.log('\\n🚧 Watching for fixes...\\n');
+  console.log('🚧 Watching for fixes...');
 });
 
 process.on('SIGINT', () => {
-  console.log('\\n\\nUser initiated shutdown...\\n\\n');
+  console.log('User initiated shutdown...');
   process.exit(0);
 });
 
