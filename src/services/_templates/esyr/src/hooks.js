@@ -23,7 +23,7 @@ if (fileOverwrite?.length > 0) {
   hookFileContent = fileOverwrite;
 }
 
-  const hookFileName = `${hookName}.${useTypeScript ? 'tsx' : 'jsx'}`;
+  const hookFileName = `${hookName}.${useTypeScript ? 'ts' : 'js'}`;
 
   await writeFile(join(hookPath, hookFileName), hookFileContent);
 };

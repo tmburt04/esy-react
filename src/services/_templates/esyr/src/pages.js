@@ -1,6 +1,6 @@
 const { join } = require('path');
-const { kebabCase } = require('lodash');
 const { writeFile } = require('fs-extra');
+const { kebabCase } = require('../../../../utils/common.util');
 
 /**
  * @name reactPageFactory

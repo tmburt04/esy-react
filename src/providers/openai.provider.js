@@ -1,4 +1,3 @@
-const { get } = require("lodash");
 const { ProgressUtil } = require("../utils/progress.util");
 const { ApiProvider } = require("./api-provider");
 const { getRandomWaitingJoke } = require("./joke.provider");
@@ -6,6 +5,7 @@ const { SW_SYSTEM_PROMPT } = require("../system-prompts/service-worker");
 const { reactSysPromptFactory } = require("../system-prompts/react-fc-v2");
 const { ProjectProvider } = require("./project.provider");
 const { findNearestProject } = require("../utils/project.util");
+const { get } = require("../utils/common.util");
 
 /**
  * 

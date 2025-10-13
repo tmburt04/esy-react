@@ -1,5 +1,6 @@
 const { join } = require('path');
-const { writeFile, ensureDir } = require('fs-extra');
+const { writeFile, ensureDir, readJsonSync, writeJson } = require('fs-extra');
+const { findNearestProject } = require('../../../../utils/project.util');
 
 /**
  * @description Creates a new content script in the nearest project (IF a browser extension is configured). the manifest.json file will be updated to include the new content script.

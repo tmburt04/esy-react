@@ -1,4 +1,5 @@
-const { kebabCase } = require("lodash");
+const { kebabCase } = require("../../../../utils/common.util");
+
 
 const indexComponentContent = ({ projectName }) => {
     const kebabName = kebabCase(projectName) + '-root';

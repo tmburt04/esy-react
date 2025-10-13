@@ -5,6 +5,7 @@ const { packageJsonData } = require('./_templates/esyr/package.json');
 const { buildScriptContent } = require('./_templates/esyr/scripts/_build');
 const { commonScriptContent } = require('./_templates/esyr/scripts/_common');
 const { startScriptContent } = require('./_templates/esyr/scripts/_start');
+const { styleScriptContent } = require('./_templates/esyr/scripts/_style');
 const { ensureDir, writeJson, writeFile } = require('fs-extra');
 const { tsConfigJsonData } = require('./_templates/esyr/tsconfig.json');
 const { indexHtmlContent } = require('./_templates/esyr/public/index.html');
@@ -136,6 +137,7 @@ async function addProject() {
 
     // Create scripts/_start.js
     writeFile(join(scriptsPath, '_start.js'), startScriptContent.trim()),
+    writeFile(join(scriptsPath, '_style.js'), styleScriptContent.trim()),
 
     // Create scripts/_build.js
     writeFile(join(scriptsPath, '_build.js'), buildScriptContent.trim()),

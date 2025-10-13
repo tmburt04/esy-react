@@ -43,8 +43,9 @@ const runBuildSteps = (steps, type = 'rebuild') => {
     try {
       fn();
     } catch (err) {
+      const msg = '❌ ' + name + ' failed:';
       hasError = true;
-      console.error('❌ ' + name + ' failed:', err.message);
+      console.error(msg, err.message);
       console.log('⚠️ Watching for fixes...');
       continue; // Skip to next step instead of returning
     }
@@ -83,11 +84,11 @@ try {
 // Notify user of error
 process.on('uncaughtException', (err) => {
   console.error('❌ Uncaught error:', err.message);
-  console.log('\n🚧 Watching for fixes...\n');
+  console.log('🚧 Watching for fixes...');
 });
 
 process.on('SIGINT', () => {
-  console.log('\n\nUser initiated shutdown...\n\n');
+  console.log('User initiated shutdown...');
   process.exit(0);
 });
 

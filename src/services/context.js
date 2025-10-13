@@ -22,7 +22,7 @@ async function addContext() {
   const contextPath = findNearestProject(resolvedPath);
 
   try {
-    const _exists = await exists(resolvedPath);
+    const _exists = await exists(`${resolvedPath}/${contextName}.${useTypeScript ? 'tsx' : 'jsx'}`);
     if (_exists) {
       const { overwriteExisting } = await prompt([
         {
