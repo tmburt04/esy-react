@@ -13,6 +13,11 @@ const addComponentCmds = ['c', 'component'];
  * Will not overwrite existing components. unless the user confirms.
  */
 async function addComponent() {
+  const nearestProjPath = findNearestProject('', false);
+  if (!nearestProjPath) {
+    console.error('Could not find a valid project directory. Please run this command in a project directory.');
+    return;
+  }
   const { componentName } = await prompt([
     {
       type: 'input',

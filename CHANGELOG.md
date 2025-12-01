@@ -1,5 +1,8 @@
 # ESY React Changelog
 
+### 3.0.3
+- Updated templating to use ETA engine.
+
 ### 3.0.2
 - Removed unneeded dependencies
 - Resolved issue with ctx creations

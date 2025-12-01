@@ -1,0 +1,16 @@
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {<%= it.pageName %>} from './pages/<%= it.pageName %>/<%= it.pageName %>';
+
+const router = createBrowserRouter([
+  {
+    element: <<%= it.pageName %> />,
+    path: '/',
+    children: [],
+  },
+]);
+
+export const App<%= it.useTypeScript ? `: React.FC` : '' %> = () => {
+  return <RouterProvider router={router} />;
+}
+

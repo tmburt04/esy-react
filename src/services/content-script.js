@@ -11,6 +11,11 @@ const addContentScriptCmds = ['cs', 'content-script'];
  * @description Adds a new content script to the projects manifest.json
  */
 async function addContentScript() {
+  const nearestProjPath = findNearestProject('', false);
+  if (!nearestProjPath) {
+    console.error('Could not find a valid project directory. Please run this command in a project directory.');
+    return;
+  }
   const { contentScriptName } = await prompt([
     {
       type: 'input',

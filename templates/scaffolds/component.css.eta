@@ -1,0 +1,19 @@
+.<%= it.kebabName %>-container {
+<% if (it.useSass) { %>
+  @apply p-4 rounded-lg;
+  
+  &:hover {
+    @apply shadow-md;
+  }
+<% } else { %>
+  padding: 1rem;
+  border-radius: 0.5rem;
+  transition: box-shadow 0.2s ease;
+<% } %>
+}
+<% if (!it.useSass) { %>
+
+.<%= it.kebabName %>-container:hover {
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+<% } %>

@@ -1,0 +1,46 @@
+.<%= it.kebabName %>-page-container {
+<% if (it.useSass) { %>
+  @apply min-h-full p-6;
+
+  .page-header {
+    @apply mb-6;
+
+    h1 {
+      @apply text-2xl font-bold text-gray-900;
+    }
+
+    p {
+      @apply text-gray-600 mt-1;
+    }
+  }
+
+  .<%= it.kebabName %>-section {
+    @apply bg-white rounded-lg shadow-sm p-6;
+  }
+<% } else { %>
+  min-height: 100%;
+  padding: 1.5rem;
+}
+
+.<%= it.kebabName %>-page-container .page-header {
+  margin-bottom: 1.5rem;
+}
+
+.<%= it.kebabName %>-page-container .page-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.<%= it.kebabName %>-page-container .page-header p {
+  color: #4b5563;
+  margin-top: 0.25rem;
+}
+
+.<%= it.kebabName %>-page-container .<%= it.kebabName %>-section {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  padding: 1.5rem;
+<% } %>
+}

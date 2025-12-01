@@ -1,29 +1,19 @@
 const { writeFile } = require('fs-extra');
 const { join } = require('path');
+const { renderScaffold } = require('../../../../utils/template.util');
 
 /**
  * Builds a React hook file
  */
 const reactHookFactory = async ({ hookName, hookPath, useTypeScript, fileOverwrite }) => {
-  let hookFileContent = `import React, { useEffect } from 'react';
-
-export const ${hookName} = () => {
-
-  useEffect(() => {
-    console.log('${hookName} mounted!');
-  }, []);
-
-  return {}
-}
-  
-export default ${hookName}`;
-
-// Overwrite the file content if provided (b/c we want claude to handle function parameters)
-if (fileOverwrite?.length > 0) {
-  hookFileContent = fileOverwrite;
-}
-
   const hookFileName = `${hookName}.${useTypeScript ? 'ts' : 'js'}`;
+
+  let hookFileContent;
+  if (fileOverwrite?.length > 0) {
+    hookFileContent = fileOverwrite;
+  } else {
+    hookFileContent = renderScaffold('hook.eta', { hookName });
+  }
 
   await writeFile(join(hookPath, hookFileName), hookFileContent);
 };

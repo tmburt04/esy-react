@@ -8,6 +8,11 @@ const {PrefProvider} = require('../providers/pref.provider');
 const addContextCmds = ['ctx', 'context'];
 
 async function addContext() {
+  const nearestProjPath = findNearestProject('', false);
+  if (!nearestProjPath) {
+    console.error('Could not find a valid project directory. Please run this command in a project directory.');
+    return;
+  }
   const { contextName } = await prompt([
     {
       type: 'input',

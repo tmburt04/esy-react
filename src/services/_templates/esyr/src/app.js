@@ -1,18 +1,7 @@
-const appComponentContent = ({ useTypeScript, pageName }) => `import React from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import {${pageName}} from './pages/${pageName}/${pageName}';
+const { renderScaffold } = require('../../../../utils/template.util');
 
-const router = createBrowserRouter([
-  {
-    element: <${pageName} />,
-    path: '/',
-    children: [],
-  },
-]);
-
-export const App${!useTypeScript ? '' : `: React.FC`} = () => {
-  return <RouterProvider router={router} />;
-}
-  `;
+const appComponentContent = ({ useTypeScript, pageName }) => {
+  return renderScaffold('app.eta', { useTypeScript, pageName });
+};
 
 module.exports = { appComponentContent };

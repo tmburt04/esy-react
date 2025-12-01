@@ -8,6 +8,11 @@ const { tryAskLLM } = require('../providers/llm.provider');
 const addServiceWorkerCmds = ['sw', 'worker', 'service-worker'];
 
 async function addServiceWorker() {
+  const nearestProjPath = findNearestProject('', false);
+  if (!nearestProjPath) {
+    console.error('Could not find a valid project directory. Please run this command in a project directory.');
+    return;
+  }
   const { serviceWorkerName } = await prompt([
     {
       type: 'input',
