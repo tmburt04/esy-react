@@ -1,0 +1,11 @@
+import React from 'react';
+
+export const NewPopUp = (props) => {
+
+  return (
+    <div className="<%= it.kebabName %>-container">
+      <p>Pop Up body</p>
+    </div>
+  )
+}
+

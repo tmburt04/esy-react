@@ -1,0 +1,13 @@
+import React, { useEffect } from 'react';
+
+export const <%= it.hookName %> = () => {
+
+  useEffect(() => {
+    console.log('<%= it.hookName %> mounted!');
+  }, []);
+
+  return {}
+}
+
+export default <%= it.hookName %>;
+

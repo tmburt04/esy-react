@@ -31,7 +31,8 @@ function findNearestProject(suffix = '', errIfNotFound = true) {
  * @param {boolean} errIfNotFound - Whether to throw an error if no browser extension is found. (default: true)
  */
 function projectHasBrowserExt(errIfNotFound = true) {
-  const nearestPublicPath = findNearestProject('public');
+  const nearestPublicPath = findNearestProject('public', false);
+  if (!nearestPublicPath) return false;
   const manifestPath = join(nearestPublicPath, 'manifest.json');
   if (existsSync(manifestPath)) return true;
   if (errIfNotFound) throw new Error('No browser extension found');
@@ -43,6 +44,7 @@ function projectHasBrowserExt(errIfNotFound = true) {
  */
 function projectHasTypeScript() {
   const nearestProjPath = findNearestProject();
+  if (!nearestProjPath) return false;
   const tsconfigPath = join(nearestProjPath, 'tsconfig.json');
   if (existsSync(tsconfigPath)) return true;
   return false;
@@ -53,6 +55,7 @@ function projectHasTypeScript() {
  */
 function projectHasSass() {
   const nearestProjPath = findNearestProject();
+  if (!nearestProjPath) return false;
   const packageJsonPath = join(nearestProjPath, 'package.json');
   if (existsSync(packageJsonPath)) {
     const packageJson = require(packageJsonPath);

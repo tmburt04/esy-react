@@ -7,6 +7,11 @@ const { PrefProvider } = require('../providers/pref.provider');
 const addPopUpCmds = ['popup', 'pop-up'];
 
 async function addPopUp() {
+  const nearestProjPath = findNearestProject('', false);
+  if (!nearestProjPath) {
+    console.error('Could not find a valid project directory. Please run this command in a project directory.');
+    return;
+  }
   const { popUpName } = await prompt([
     {
       type: 'input',

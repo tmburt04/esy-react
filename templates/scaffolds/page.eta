@@ -1,0 +1,22 @@
+import React from 'react';
+import './<%= it.styleFileName %>';
+
+export const <%= it.pageName %> = () => {
+<% if (it.contentOverwrite) { %>
+  <%= it.contentOverwrite %>
+<% } else { %>
+  return (
+    <div className="<%= it.kebabName %>-page-container">
+      <header className="page-header">
+        <h1><%= it.pageName %></h1>
+        <p>Page description goes here</p>
+      </header>
+      
+      <section className="<%= it.kebabName %>-section">
+        <p>Page content</p>
+      </section>
+    </div>
+  )
+<% } %>
+}
+export default <%= it.pageName %>;

@@ -1,6 +1,7 @@
 const { join } = require('path');
 const { writeFile, ensureDir, readJsonSync, writeJson } = require('fs-extra');
 const { findNearestProject } = require('../../../../utils/project.util');
+const { renderScaffold } = require('../../../../utils/template.util');
 
 /**
  * @description Creates a new content script in the nearest project (IF a browser extension is configured). the manifest.json file will be updated to include the new content script.
@@ -11,17 +12,13 @@ const reactContentScriptFactory = async ({
   contentScriptName,
   contentScriptPath,
 }) => {
-  // Validate required arguments
   const requiredArgs = [useTypeScript, contentScriptName, contentScriptPath];
   if (requiredArgs.some((arg) => arg == undefined || arg == null)) {
     throw new Error('Missing required arguments');
   }
 
   const contentScriptFileName = `${contentScriptName}.${useTypeScript ? 'tsx' : 'jsx'}`;
-
-  const contentScriptContent = `
-    // content script content
-    `;
+  const contentScriptContent = renderScaffold('content-script.eta', {});
 
   await writeFile(join(contentScriptPath, contentScriptFileName), contentScriptContent);
 
@@ -32,7 +29,6 @@ const reactContentScriptFactory = async ({
 
   if (manifestJsonData) {
     await ensureDir(join(nearestProjPath, 'public'));
-    // Create manifest.json
     const manifestJson = {
       ...manifestJsonData,
       content_scripts: [
@@ -47,4 +43,5 @@ const reactContentScriptFactory = async ({
     await writeJson(manifestPath, manifestJson, { spaces: 2 });
   }
 };
+
 module.exports = { reactContentScriptFactory };

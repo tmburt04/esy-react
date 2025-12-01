@@ -1,0 +1,22 @@
+import React from 'react';
+import './<%= it.styleFileName %>';
+<% if (it.useTypeScript) { %>
+export type <%= it.componentName %>Props = {
+  id?: string;
+  className?: string;
+}
+<% } %>
+export const <%= it.componentName %> = (props<%= it.useTypeScript ? `: ${it.componentName}Props` : '' %>) => {
+<% if (it.contentOverwrite) { %>
+  <%= it.contentOverwrite %>
+<% } else { %>
+  const { className = '' } = props;
+  
+  return (
+    <div className={`<%= it.kebabName %>-container ${className}`.trim()}>
+      <p><%= it.componentName %></p>
+    </div>
+  )
+<% } %>
+}
+export default <%= it.componentName %>;

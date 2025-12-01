@@ -1,21 +1,12 @@
-const { kebabCase } = require("../../../../utils/common.util");
-
+const { kebabCase } = require('../../../../utils/common.util');
+const { renderScaffold } = require('../../../../utils/template.util');
 
 /**
  * Builds a React pop up file
  */
 const reactPopUpFactory = ({ popupName }) => {
-  const kebabCaseName = kebabCase(popupName);
-
-  return `import React from 'react';
-      
-      export const NewPopUp = (props) => {
-
-        return (
-          <div className="${kebabCaseName}-container">
-            <p>Pop Up body</p>
-          </div>
-        )
-      }`;
+  const kebabName = kebabCase(popupName);
+  return renderScaffold('pop-up.eta', { kebabName });
 };
+
 module.exports = { reactPopUpFactory };

@@ -1,0 +1,36 @@
+import React, { useContext, useEffect } from 'react'
+<% if (it.useTypeScript) { %>
+
+export type <%= it.contextName %>Type = {}
+<% } %>
+
+export const defaultContext = {}<%= it.useTypeScript ? ` as ${it.contextName}Type` : '' %>;
+
+// Create context with a default value
+export const <%= it.contextName %> = React.createContext<%= it.useTypeScript ? `<${it.contextName}Type>` : '' %>(defaultContext);
+<% if (it.useTypeScript) { %>
+
+export type <%= it.contextName %>PropsType = {
+  children?: any;
+}
+<% } %>
+
+// Context Provider to reference from central location
+export const <%= it.contextName %>Provider = ({ children }<%= it.useTypeScript ? `: ${it.contextName}PropsType` : '' %>) => {
+
+  useEffect(() => {
+    console.log('<%= it.contextName %> mounted!')
+  }, [])
+
+  return (
+    <<%= it.contextName %>.Provider value={{}<%= it.useTypeScript ? ` as ${it.contextName}Type` : '' %>}>
+      {children}
+    </<%= it.contextName %>.Provider>
+  )
+}
+
+// Create custom hook to reference context easier (<%= it.contextName %>Provider MUST be a parent of the component)
+export const use<%= it.contextName %> = () => {
+  return useContext(<%= it.contextName %>);
+}
+
